@@ -1,0 +1,123 @@
+
+:root{
+  --bg:#0d0d0f;
+  --panel:#17171b;
+  --line:#2e2e35;
+  --text:#f5f5f7;
+  --muted:#b9b9c1;
+  --accent:#f0c85a;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
+}
+a{color:inherit;text-decoration:none}
+.site-header{
+  position:sticky;top:0;z-index:20;
+  backdrop-filter:blur(12px);
+  background:rgba(13,13,15,.88);
+  border-bottom:1px solid var(--line);
+}
+.header-inner{
+  max-width:1100px;margin:auto;padding:12px 18px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.brand{font-weight:900;letter-spacing:.08em}
+.brand small{display:block;font-size:10px;color:var(--muted);font-weight:500;letter-spacing:.12em}
+nav{display:flex;gap:16px;font-size:14px;color:var(--muted)}
+nav a:hover{color:var(--text)}
+.hero{
+  max-width:1100px;margin:auto;padding:56px 20px 36px;
+  display:grid;grid-template-columns:minmax(260px,460px) 1fr;gap:48px;align-items:center;
+}
+.cover-card{
+  background:#fff;border-radius:16px;overflow:hidden;
+  box-shadow:0 18px 50px rgba(0,0,0,.45);
+}
+.cover-card img{display:block;width:100%;height:auto}
+.kicker{color:var(--accent);font-size:13px;font-weight:800;letter-spacing:.14em}
+h1{font-size:clamp(36px,6vw,72px);line-height:1.05;margin:10px 0 16px;letter-spacing:.03em}
+.lead{font-size:17px;color:#d8d8dd;max-width:620px}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:46px;padding:0 20px;border-radius:999px;font-weight:800;
+  border:1px solid var(--line);background:var(--panel);
+}
+.btn.primary{background:var(--accent);color:#17130a;border-color:var(--accent)}
+.btn:hover{transform:translateY(-1px)}
+.section{max-width:1100px;margin:auto;padding:42px 20px}
+.section h2{font-size:28px;margin:0 0 18px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:16px;padding:20px;
+}
+.card strong{display:block;font-size:18px;margin-bottom:6px}
+.card p{margin:0;color:var(--muted);font-size:14px}
+.episode-card{
+  display:grid;grid-template-columns:130px 1fr;gap:18px;align-items:center;
+}
+.episode-card img{width:100%;border-radius:10px;background:#fff}
+.badge{
+  display:inline-block;font-size:12px;color:#17130a;background:var(--accent);
+  padding:3px 9px;border-radius:999px;font-weight:800;margin-bottom:8px;
+}
+.notice{
+  color:var(--muted);font-size:13px;border-top:1px solid var(--line);
+  padding-top:18px;margin-top:28px;
+}
+footer{
+  border-top:1px solid var(--line);color:#888;text-align:center;
+  padding:28px 18px 46px;font-size:12px;
+}
+
+/* reader */
+.reader-page{background:#111}
+.reader-bar{
+  position:sticky;top:0;z-index:30;background:rgba(13,13,15,.94);
+  border-bottom:1px solid var(--line);
+}
+.reader-bar-inner{
+  max-width:900px;margin:auto;padding:10px 14px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.reader-title{font-size:13px}
+.reader-title strong{display:block;font-size:15px}
+.reader-controls{display:flex;gap:8px}
+.small-btn{
+  border:1px solid #444;background:#222;color:#fff;border-radius:9px;
+  padding:8px 11px;font:inherit;font-size:13px;cursor:pointer;
+}
+.viewer{max-width:780px;margin:auto;padding:18px 12px 36px}
+.manga-page{
+  margin:0 auto 18px;background:#fff;
+  box-shadow:0 3px 18px rgba(0,0,0,.5);
+}
+.manga-page.cover{max-width:540px}
+.manga-page img{display:block;width:100%;height:auto}
+.page-nav{display:flex;justify-content:center;gap:10px;padding:0 14px 18px}
+.page-nav button{
+  border:1px solid #444;background:#222;color:#fff;border-radius:10px;
+  padding:10px 16px;font:inherit;cursor:pointer;
+}
+.counter{text-align:center;color:#aaa;font-size:13px;padding-bottom:18px}
+.single .manga-page{display:none}
+.single .manga-page.active{display:block}
+.single .viewer{max-width:680px}
+.reader-footer{text-align:center;color:#777;font-size:12px;padding:24px}
+
+@media(max-width:760px){
+  .hero{grid-template-columns:1fr;gap:28px;padding-top:28px}
+  .cover-card{max-width:430px;margin:auto}
+  .cards{grid-template-columns:1fr}
+  nav{display:none}
+  .episode-card{grid-template-columns:95px 1fr}
+  .reader-bar-inner{align-items:flex-start}
+  .reader-controls{flex-wrap:wrap;justify-content:flex-end}
+}
