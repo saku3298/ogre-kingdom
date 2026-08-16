@@ -1,123 +1,80 @@
 
 :root{
-  --bg:#0d0d0f;
-  --panel:#17171b;
-  --line:#2e2e35;
-  --text:#f5f5f7;
-  --muted:#b9b9c1;
-  --accent:#f0c85a;
+  --bg:#0d0d0f; --panel:#18181c; --line:#313139;
+  --text:#f6f6f7; --muted:#b9b9c1; --accent:#f0c85a;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.7;
+  margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN",
+  "Yu Gothic",Meiryo,sans-serif;background:var(--bg);color:var(--text);line-height:1.7
 }
 a{color:inherit;text-decoration:none}
-.site-header{
-  position:sticky;top:0;z-index:20;
-  backdrop-filter:blur(12px);
-  background:rgba(13,13,15,.88);
-  border-bottom:1px solid var(--line);
-}
-.header-inner{
-  max-width:1100px;margin:auto;padding:12px 18px;
-  display:flex;align-items:center;justify-content:space-between;gap:16px;
-}
-.brand{font-weight:900;letter-spacing:.08em}
-.brand small{display:block;font-size:10px;color:var(--muted);font-weight:500;letter-spacing:.12em}
-nav{display:flex;gap:16px;font-size:14px;color:var(--muted)}
-nav a:hover{color:var(--text)}
-.hero{
-  max-width:1100px;margin:auto;padding:56px 20px 36px;
-  display:grid;grid-template-columns:minmax(260px,460px) 1fr;gap:48px;align-items:center;
-}
-.cover-card{
-  background:#fff;border-radius:16px;overflow:hidden;
-  box-shadow:0 18px 50px rgba(0,0,0,.45);
-}
-.cover-card img{display:block;width:100%;height:auto}
-.kicker{color:var(--accent);font-size:13px;font-weight:800;letter-spacing:.14em}
-h1{font-size:clamp(36px,6vw,72px);line-height:1.05;margin:10px 0 16px;letter-spacing:.03em}
-.lead{font-size:17px;color:#d8d8dd;max-width:620px}
-.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;
-  min-height:46px;padding:0 20px;border-radius:999px;font-weight:800;
-  border:1px solid var(--line);background:var(--panel);
-}
-.btn.primary{background:var(--accent);color:#17130a;border-color:var(--accent)}
-.btn:hover{transform:translateY(-1px)}
-.section{max-width:1100px;margin:auto;padding:42px 20px}
-.section h2{font-size:28px;margin:0 0 18px}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.card{
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:16px;padding:20px;
-}
-.card strong{display:block;font-size:18px;margin-bottom:6px}
-.card p{margin:0;color:var(--muted);font-size:14px}
-.episode-card{
-  display:grid;grid-template-columns:130px 1fr;gap:18px;align-items:center;
-}
-.episode-card img{width:100%;border-radius:10px;background:#fff}
-.badge{
-  display:inline-block;font-size:12px;color:#17130a;background:var(--accent);
-  padding:3px 9px;border-radius:999px;font-weight:800;margin-bottom:8px;
-}
-.notice{
-  color:var(--muted);font-size:13px;border-top:1px solid var(--line);
-  padding-top:18px;margin-top:28px;
-}
-footer{
-  border-top:1px solid var(--line);color:#888;text-align:center;
-  padding:28px 18px 46px;font-size:12px;
-}
+.site-header{position:sticky;top:0;z-index:20;background:rgba(13,13,15,.91);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.header-inner{max-width:1120px;margin:auto;padding:12px 18px;display:flex;align-items:center;
+  justify-content:space-between;gap:14px}
+.brand{font-weight:900;letter-spacing:.08em}.brand small{display:block;font-size:10px;color:var(--muted);font-weight:500}
+nav{display:flex;gap:18px;font-size:14px;color:var(--muted)}
+nav a:hover{color:#fff}
+.hero{max-width:1120px;margin:auto;padding:52px 20px 34px;display:grid;
+  grid-template-columns:minmax(260px,430px) 1fr;gap:48px;align-items:center}
+.cover-card{background:white;border-radius:16px;overflow:hidden;box-shadow:0 20px 55px rgba(0,0,0,.46)}
+.cover-card img{display:block;width:100%}
+.kicker{font-size:13px;color:var(--accent);font-weight:800;letter-spacing:.15em}
+h1{font-size:clamp(38px,6vw,72px);line-height:1.05;margin:10px 0 16px}
+.lead{color:#d8d8dd;font-size:17px;max-width:620px}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 20px;
+  border:1px solid var(--line);border-radius:999px;background:var(--panel);font-weight:800}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#17130a}
+.section{max-width:1120px;margin:auto;padding:42px 20px}
+.section h2{font-size:29px;margin:0 0 18px}
+.section-intro{margin:-8px 0 22px;color:var(--muted)}
+.episode-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.episode-card img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top;background:#fff;display:block}
+.card-body{padding:18px}
+.badge{display:inline-block;font-size:11px;font-weight:900;background:var(--accent);color:#17130a;
+  padding:3px 9px;border-radius:999px;margin-bottom:8px}
+.card strong{display:block;font-size:18px;margin-bottom:5px}.card p{color:var(--muted);font-size:14px;margin:0}
+.dictionary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.dictionary-card img{width:100%;display:block;background:#fff}
+.dictionary-card .card-body{padding:14px 16px}
+.dictionary-card strong{font-size:16px}
+.notice{background:#131316;border:1px solid var(--line);border-radius:14px;padding:16px 18px;color:var(--muted)}
+footer{border-top:1px solid var(--line);text-align:center;color:#888;font-size:12px;padding:30px 18px 44px}
 
 /* reader */
 .reader-page{background:#111}
-.reader-bar{
-  position:sticky;top:0;z-index:30;background:rgba(13,13,15,.94);
-  border-bottom:1px solid var(--line);
-}
-.reader-bar-inner{
-  max-width:900px;margin:auto;padding:10px 14px;
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-}
-.reader-title{font-size:13px}
-.reader-title strong{display:block;font-size:15px}
-.reader-controls{display:flex;gap:8px}
-.small-btn{
-  border:1px solid #444;background:#222;color:#fff;border-radius:9px;
-  padding:8px 11px;font:inherit;font-size:13px;cursor:pointer;
-}
-.viewer{max-width:780px;margin:auto;padding:18px 12px 36px}
-.manga-page{
-  margin:0 auto 18px;background:#fff;
-  box-shadow:0 3px 18px rgba(0,0,0,.5);
-}
-.manga-page.cover{max-width:540px}
-.manga-page img{display:block;width:100%;height:auto}
+.reader-bar{position:sticky;top:0;z-index:30;background:rgba(13,13,15,.95);border-bottom:1px solid var(--line)}
+.reader-bar-inner{max-width:900px;margin:auto;padding:9px 13px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.reader-title{font-size:12px;color:#bbb}.reader-title strong{display:block;color:#fff;font-size:15px}
+.reader-controls{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.small-btn{border:1px solid #444;background:#232327;color:#fff;border-radius:9px;padding:8px 11px;font:inherit;font-size:13px;cursor:pointer}
+.viewer{max-width:780px;margin:auto;padding:18px 12px 32px}
+.manga-page{margin:0 auto 18px;background:#fff;box-shadow:0 3px 18px rgba(0,0,0,.5)}
+.manga-page.cover{max-width:540px}.manga-page img{display:block;width:100%}
+.interlude-label{text-align:center;color:var(--accent);font-weight:900;letter-spacing:.1em;padding:26px 10px 10px}
 .page-nav{display:flex;justify-content:center;gap:10px;padding:0 14px 18px}
-.page-nav button{
-  border:1px solid #444;background:#222;color:#fff;border-radius:10px;
-  padding:10px 16px;font:inherit;cursor:pointer;
-}
-.counter{text-align:center;color:#aaa;font-size:13px;padding-bottom:18px}
-.single .manga-page{display:none}
+.page-nav button{border:1px solid #444;background:#232327;color:#fff;border-radius:10px;padding:10px 16px;font:inherit;cursor:pointer}
+.counter{text-align:center;color:#999;font-size:13px;padding-bottom:18px}
+.single .manga-page,.single .interlude-label{display:none}
 .single .manga-page.active{display:block}
 .single .viewer{max-width:680px}
 .reader-footer{text-align:center;color:#777;font-size:12px;padding:24px}
+.dictionary-page{max-width:1120px;margin:auto;padding:36px 20px 52px}
+.dictionary-page h1{font-size:42px;margin-bottom:8px}
+.dictionary-page .lead{margin-bottom:26px}
+.dict-full{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.dict-full article{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.dict-full img{display:block;width:100%;background:white}.dict-full .card-body{padding:16px}
 
-@media(max-width:760px){
-  .hero{grid-template-columns:1fr;gap:28px;padding-top:28px}
-  .cover-card{max-width:430px;margin:auto}
-  .cards{grid-template-columns:1fr}
-  nav{display:none}
-  .episode-card{grid-template-columns:95px 1fr}
+@media(max-width:780px){
+  nav{display:none}.hero{grid-template-columns:1fr;gap:28px;padding-top:28px}
+  .cover-card{max-width:420px;margin:auto}
+  .episode-grid,.dictionary-grid,.dict-full{grid-template-columns:1fr}
+  .episode-card{display:grid;grid-template-columns:118px 1fr}
+  .episode-card img{height:100%;aspect-ratio:auto}
   .reader-bar-inner{align-items:flex-start}
-  .reader-controls{flex-wrap:wrap;justify-content:flex-end}
 }
