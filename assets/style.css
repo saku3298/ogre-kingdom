@@ -89,3 +89,6 @@ footer{border-top:1px solid var(--line);text-align:center;color:#888;font-size:1
 .dict-placeholder{aspect-ratio:3/4;background:#202027;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:34px;font-weight:900;color:var(--accent)}
 .dict-placeholder small{font-size:13px;color:var(--muted);font-weight:500;margin-top:8px}
 @media(max-width:780px){.volume-grid{grid-template-columns:1fr}.volume-hero{grid-template-columns:1fr;gap:26px}.volume-hero .cover-card{max-width:380px;margin:auto}.episode-nav{padding-top:0}}
+
+.placeholder-cover{min-height:220px;display:flex;align-items:center;justify-content:center;background:#eee;font-size:1.5rem;font-weight:700;color:#777}
+.episode-card.preparing{opacity:.72}
