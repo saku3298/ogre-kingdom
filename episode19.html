@@ -1,0 +1,19 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第19話「沼鬼」 | オーガキングダム</title><link rel="stylesheet" href="assets/style.css"></head>
+<body class="reader-page"><header class="reader-bar"><div class="reader-bar-inner"><div class="reader-title">
+<a href="volume4.html">← 第4巻</a><strong>第19話「沼鬼」</strong></div>
+<div class="reader-controls"><button class="small-btn" id="mode">1ページ表示</button><button class="small-btn" id="top">先頭へ</button>
+<a class="small-btn" href="demon-encyclopedia.html">DEMON図鑑</a><a class="small-btn" href="correlation.html">相関図</a></div></div></header>
+<main class="viewer" id="viewer"><div class="manga-page" data-i="0"><img src="pages/episode19-001.jpg" alt="第19話 ページ 1"></div><div class="manga-page" data-i="1"><img src="pages/episode19-002.jpg" alt="第19話 ページ 2"></div><div class="manga-page" data-i="2"><img loading="lazy" src="pages/episode19-003.jpg" alt="第19話 ページ 3"></div><div class="manga-page" data-i="3"><img loading="lazy" src="pages/episode19-004.jpg" alt="第19話 ページ 4"></div><div class="manga-page" data-i="4"><img loading="lazy" src="pages/episode19-005.jpg" alt="第19話 ページ 5"></div><div class="manga-page" data-i="5"><img loading="lazy" src="pages/episode19-006.jpg" alt="第19話 ページ 6"></div><div class="manga-page" data-i="6"><img loading="lazy" src="pages/episode19-007.jpg" alt="第19話 ページ 7"></div><div class="manga-page" data-i="7"><img loading="lazy" src="pages/episode19-008.jpg" alt="第19話 ページ 8"></div><div class="manga-page" data-i="8"><img loading="lazy" src="pages/episode19-009.jpg" alt="第19話 ページ 9"></div><div class="manga-page" data-i="9"><img loading="lazy" src="pages/episode19-010.jpg" alt="第19話 ページ 10"></div><div class="manga-page" data-i="10"><img loading="lazy" src="pages/episode19-011.jpg" alt="第19話 ページ 11"></div><div class="manga-page" data-i="11"><img loading="lazy" src="pages/episode19-012.jpg" alt="第19話 ページ 12"></div></main>
+<div class="episode-nav"><a class="small-btn" href="episode18.html">← 第18話</a><a class="small-btn" href="volume4.html">第4巻の目次</a><a class="small-btn" href="episode20.html">第20話 →</a></div>
+<div class="page-nav"><button id="prev">← 前のページ</button><button id="next">次のページ →</button></div>
+<div class="counter" id="counter">縦スクロール表示</div>
+<div class="reader-footer"><a href="index.html">HOME</a>　|　<a href="volume4.html">第4巻</a>　|　<a href="demon-encyclopedia.html">DEMON図鑑</a>　|　<a href="correlation.html">相関図</a></div>
+<script>
+const body=document.body,pages=[...document.querySelectorAll('.manga-page')],counter=document.getElementById('counter'),modeBtn=document.getElementById('mode');let idx=0,single=false;
+function show(){pages.forEach((p,i)=>p.classList.toggle('active',i===idx));counter.textContent=single?`${idx+1} / ${pages.length}`:'縦スクロール表示';if(single)scrollTo({top:0,behavior:'smooth'})}
+function enableSingle(){if(!single){single=true;body.classList.add('single');modeBtn.textContent='縦スクロール'}}
+modeBtn.onclick=()=>{single=!single;body.classList.toggle('single',single);modeBtn.textContent=single?'縦スクロール':'1ページ表示';show()};
+prev.onclick=()=>{enableSingle();idx=Math.max(0,idx-1);show()};next.onclick=()=>{enableSingle();idx=Math.min(pages.length-1,idx+1);show()};top.onclick=()=>scrollTo({top:0,behavior:'smooth'});
+document.addEventListener('keydown',e=>{if(!single)return;if(e.key==='ArrowLeft')prev.click();if(e.key==='ArrowRight')next.click()});
+</script></body></html>
