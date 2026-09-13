@@ -1,4 +1,329 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="オリジナル漫画『オーガキングダム』Webサイト"><title>オーガキングダム | OGRE KINGDOM</title><link rel="stylesheet" href="assets/style.css"></head><body>
-<header class="site-header"><div class="header-inner"><a class="brand" href="index.html">オーガキングダム<small>OGRE KINGDOM</small></a><nav><a href="#volumes">漫画を読む</a><a href="demon-encyclopedia.html">DEMON図鑑</a><a href="correlation.html">相関図</a></nav></div></header>
-<main><section class="hero"><div class="cover-card"><img src="pages/volume1-cover.jpg" alt="オーガキングダム 第1巻 表紙"></div><div><div class="kicker">ORIGINAL COMIC</div><h1>オーガ<br>キングダム</h1><p class="lead">第1巻〜第8巻（第1話〜第37話・第41話〜第43話）をカラー原稿で読めるサイトです。</p><div class="actions"><a class="btn primary" href="episode1.html">第1話から読む</a><a class="btn" href="episode43.html">最新 第43話を読む</a><a class="btn" href="demon-encyclopedia.html">DEMON図鑑</a><a class="btn" href="correlation.html">相関図</a></div></div></section>
-<section class="section" id="volumes"><h2>漫画を読む</h2><p class="section-intro">巻を選んで、収録エピソードへ進めます。</p><div class="volume-grid"><a class="card volume-card" href="volume1.html"><img src="pages/volume1-cover.jpg" alt="第1巻 表紙"><div class="card-body"><span class="badge">第1巻</span><strong>DEMONキラーの兄妹</strong><p>第1話〜第4話</p></div></a><a class="card volume-card" href="volume2.html"><img src="pages/volume2-cover.jpg" alt="第2巻 表紙"><div class="card-body"><span class="badge">第2巻</span><strong>クソゲームかよ</strong><p>第5話〜第10話</p></div></a><a class="card volume-card" href="volume3.html"><img src="pages/volume3-cover.jpg" alt="第3巻 表紙"><div class="card-body"><span class="badge">第3巻</span><strong>人間だって</strong><p>第11話〜第16話</p></div></a><a class="card volume-card" href="volume4.html"><img src="pages/volume4-cover.jpg" alt="第4巻 表紙"><div class="card-body"><span class="badge">第4巻</span><strong>裏切り者</strong><p>第17話〜第22話</p></div></a><a class="card volume-card" href="volume5.html"><img src="pages/volume5-cover.jpg" alt="第5巻 表紙"><div class="card-body"><span class="badge">第5巻</span><strong>6月5日</strong><p>第23話〜第28話</p></div></a><a class="card volume-card" href="volume6.html"><img src="pages/volume6-cover.jpg" alt="第6巻 表紙"><div class="card-body"><span class="badge">第6巻</span><strong>6月6日</strong><p>第29話〜第34話</p></div></a><a class="card volume-card" href="volume7.html"><img src="pages/volume7-cover.jpg" alt="第7巻 表紙"><div class="card-body"><span class="badge">第7巻</span><strong>第35話〜第37話 公開中</strong><p>第38話〜第40話は準備中</p></div></a><a class="card volume-card" href="volume8.html"><img src="pages/volume8-cover.jpg" alt="第8巻 表紙"><div class="card-body"><span class="badge">第8巻</span><strong>6月6日 その⑫ー⑬ー⑭</strong><p>第41話〜第43話 公開中</p></div></a></div></section></main><footer>© YUURI SAKU / OGRE KINGDOM</footer></body></html>
+<!doctype html><html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="YUURI・SAKU共同制作のオリジナル漫画『オーガキングダム』。第1話から最新話まで公開中。">
+<title>オーガキングダム | OGRE KINGDOM</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+body{margin:0;background:#fff;color:#111;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.jp-shell{max-width:760px;margin:auto;min-height:100vh;background:#fff}
+.jp-hero{display:grid;grid-template-columns:1.1fr .9fr;background:#111}
+.jp-hero img{width:100%;height:100%;object-fit:cover;display:block}
+.jp-hero-right{display:flex;align-items:center;justify-content:center;color:#fff;padding:28px}
+.jp-logo{font-weight:900;font-size:clamp(28px,7vw,56px);line-height:1.05;letter-spacing:.04em}
+.jp-info{padding:26px 24px 14px}
+.jp-title{font-size:34px;margin:0 0 4px;font-weight:900}
+.jp-author{color:#777;font-size:18px;margin-bottom:18px}
+.jp-actions{display:flex;gap:10px;flex-wrap:wrap}
+.jp-btn{text-decoration:none;color:#111;border:1px solid #ddd;border-radius:999px;padding:11px 18px;font-weight:800;background:#fff}
+.jp-btn.primary{background:#ef3b35;color:#fff;border-color:#ef3b35}
+.jp-tabs{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid #ddd;position:sticky;top:0;background:#fff;z-index:10}
+.jp-tab{padding:15px 5px;border:0;background:#fff;font-size:17px;font-weight:800}
+.jp-tab.active{color:#ef3b35;border-bottom:4px solid #ef3b35}
+.jp-panel{display:none} .jp-panel.active{display:block}
+.range-bar{display:flex;gap:10px;overflow:auto;padding:16px 18px;border-bottom:1px solid #eee}
+.range-btn{border:0;border-radius:999px;background:#f0f1f5;padding:11px 18px;font-weight:800;white-space:nowrap}
+.range-btn.active{background:#ef3b35;color:#fff}
+.episode-row{display:grid;grid-template-columns:160px 1fr auto;gap:15px;align-items:center;padding:14px 18px;border-bottom:1px solid #e7e7e7;text-decoration:none;color:inherit}
+.episode-thumb{width:160px;height:90px;object-fit:cover;background:#eee}
+.placeholder{display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:#aaa}
+.episode-title{font-size:18px;font-weight:900;line-height:1.3} .episode-title span{font-weight:700}
+.episode-sub{color:#888;margin-top:7px}
+.episode-read{color:#18aaf5;border:2px solid #18aaf5;border-radius:999px;padding:8px 13px;font-weight:800}
+.preparing{opacity:.58} .episode-status{color:#999;font-weight:800}
+.volume-list{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;padding:22px}
+.volume-tile{text-decoration:none;color:inherit} .volume-tile img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px}
+.volume-tile strong,.volume-tile span{display:block;margin-top:6px} .volume-tile span{color:#777;font-size:14px}
+.info-panel{padding:22px} .info-card{border:1px solid #e5e5e5;border-radius:14px;padding:18px;margin-bottom:14px}
+.continue-bar{position:sticky;bottom:0;background:#fff;padding:14px 18px;border-top:1px solid #ddd}
+.continue-bar a{display:block;text-align:center;background:#ef3b35;color:#fff;text-decoration:none;padding:16px;border-radius:999px;font-size:20px;font-weight:900}
+@media(max-width:600px){.episode-row{grid-template-columns:135px 1fr auto;padding:12px 12px;gap:10px}.episode-thumb{width:135px;height:76px}.episode-title{font-size:16px}}
+.thumbnail-pending{
+  background:#f7f7f7;
+  border:1px solid #e2e2e2;
+  box-sizing:border-box;
+}
+</style>
+<style id="v3-overrides">
+/* コミックス：ジャンプ＋風の縦一覧 */
+.comics-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 22px 10px;color:#777;font-size:18px;
+}
+.comics-sort{display:flex;gap:14px;align-items:center;font-weight:700}
+.comics-sort .active{color:#ef3b35}
+.volume-list{display:block!important;padding:0!important}
+.volume-tile{
+  display:grid!important;
+  grid-template-columns:150px 1fr;
+  gap:18px;
+  align-items:center;
+  padding:18px 22px;
+  border-bottom:1px solid #e7e7e7;
+  text-decoration:none;color:inherit;
+}
+.volume-tile img{
+  width:150px!important;
+  aspect-ratio:3/4!important;
+  object-fit:cover!important;
+  border-radius:0!important;
+}
+.volume-tile div{padding:0!important}
+.volume-tile strong{font-size:22px!important;margin:0 0 8px!important}
+.volume-tile span{font-size:16px!important;color:#777!important}
+.volume-tile::after{
+  content:"読む";
+  justify-self:end;
+  color:#18aaf5;
+  border:2px solid #18aaf5;
+  border-radius:999px;
+  padding:9px 18px;
+  font-weight:800;
+}
+
+/* 作品情報：見出し＋本文＋同作者作品 */
+.info-panel{padding:0!important}
+.work-intro{padding:28px 26px;border-bottom:1px solid #eee}
+.work-catch{
+  display:inline-block;background:#111;color:#fff;
+  font-size:24px;font-weight:900;padding:4px 10px;margin-bottom:18px
+}
+.work-summary{font-size:20px;line-height:1.7;margin:0 0 18px}
+.author-chip{
+  display:inline-block;background:#f3f3f6;border-radius:999px;
+  padding:10px 18px;font-size:18px
+}
+.info-section{padding:28px 26px}
+.info-section h2{font-size:28px;margin:0 0 18px}
+.author-work-card{
+  display:grid;
+  grid-template-columns:130px 1fr;
+  gap:18px;
+  align-items:center;
+  text-decoration:none;color:inherit;
+  padding:16px 0;border-top:1px solid #eee
+}
+.author-work-card img{
+  width:130px;height:170px;object-fit:cover;background:#eee
+}
+.author-work-title{font-size:22px;font-weight:900}
+.author-work-author{color:#777;margin-top:6px;font-size:16px}
+.author-work-label{
+  display:inline-block;background:#111;color:#fff;
+  padding:4px 9px;margin-top:8px;font-weight:800
+}
+.info-links{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+
+@media(max-width:600px){
+  .volume-tile{grid-template-columns:105px 1fr auto;padding:14px 12px;gap:12px}
+  .volume-tile img{width:105px!important}
+  .volume-tile strong{font-size:17px!important}
+  .volume-tile span{font-size:14px!important}
+  .volume-tile::after{padding:7px 12px}
+  .work-catch{font-size:20px}
+  .work-summary{font-size:17px}
+  .author-work-card{grid-template-columns:100px 1fr}
+  .author-work-card img{width:100px;height:135px}
+}
+</style>
+
+</head><body>
+<div class="jp-shell">
+<section class="jp-hero"><img src="pages/volume8-cover.jpg" alt="第8巻 表紙"><div class="jp-hero-right"><div class="jp-logo">OGRE<br>KINGDOM</div></div></section>
+<section class="jp-info"><h1 class="jp-title">オーガキングダム</h1><div class="jp-author">YUURI・SAKU</div>
+<div class="jp-actions"><a class="jp-btn primary" href="episode1.html">第1話から読む</a><a class="jp-btn" href="episode43.html">最新話から読む</a></div></section>
+<nav class="jp-tabs"><button class="jp-tab active" data-tab="episodes">話</button><button class="jp-tab" data-tab="volumes">コミックス</button><button class="jp-tab" data-tab="info">作品情報</button></nav>
+<section id="episodes" class="jp-panel active">
+<div class="range-bar"><button class="range-btn active" data-range="1-10">1-10</button><button class="range-btn" data-range="11-20">11-20</button><button class="range-btn" data-range="21-30">21-30</button><button class="range-btn" data-range="31-40">31-40</button><button class="range-btn" data-range="41-50">41-</button></div>
+<div><a class="episode-row" href="episode1.html" data-ep="1">
+<img class="episode-thumb" src="pages/thumb-episode01.jpg" alt="第1話 DEMONキラーの兄妹">
+<div class="episode-meta"><div class="episode-title">第1話 <span>DEMONキラーの兄妹</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode2.html" data-ep="2">
+<img class="episode-thumb" src="pages/thumb-episode02.jpg" alt="第2話 ただのかざりだろ？">
+<div class="episode-meta"><div class="episode-title">第2話 <span>ただのかざりだろ？</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode3.html" data-ep="3">
+<img class="episode-thumb" src="pages/thumb-episode03.jpg" alt="第3話 その景色に見覚えがある">
+<div class="episode-meta"><div class="episode-title">第3話 <span>その景色に見覚えがある</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode4.html" data-ep="4">
+<img class="episode-thumb" src="pages/thumb-episode04.jpg" alt="第4話 止まっていたあなたを前へと動かしてくれたのは">
+<div class="episode-meta"><div class="episode-title">第4話 <span>止まっていたあなたを前へと動かしてくれたのは</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode5.html" data-ep="5">
+<img class="episode-thumb" src="pages/thumb-episode05.jpg" alt="第5話 クソゲームかよ">
+<div class="episode-meta"><div class="episode-title">第5話 <span>クソゲームかよ</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode6.html" data-ep="6">
+<img class="episode-thumb" src="pages/thumb-episode06.jpg" alt="第6話 犯人探しまーす。">
+<div class="episode-meta"><div class="episode-title">第6話 <span>犯人探しまーす。</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode7.html" data-ep="7">
+<img class="episode-thumb" src="pages/thumb-episode07.jpg" alt="第7話 西京家では最強だね。">
+<div class="episode-meta"><div class="episode-title">第7話 <span>西京家では最強だね。</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode8.html" data-ep="8">
+<img class="episode-thumb" src="pages/thumb-episode08.jpg" alt="第8話 雷も超能力で止められるのだろうか？">
+<div class="episode-meta"><div class="episode-title">第8話 <span>雷も超能力で止められるのだろうか？</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode9.html" data-ep="9">
+<img class="episode-thumb" src="pages/thumb-episode09.jpg" alt="第9話 最近のCGはスゴイですね。">
+<div class="episode-meta"><div class="episode-title">第9話 <span>最近のCGはスゴイですね。</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode10.html" data-ep="10">
+<img class="episode-thumb" src="pages/thumb-episode10.jpg" alt="第10話 ゆうり先生">
+<div class="episode-meta"><div class="episode-title">第10話 <span>ゆうり先生</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode11.html" data-ep="11">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第11話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第11話 <span>深い愛を持って痛みを受け入れれば顔面セーフくらい...</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode12.html" data-ep="12">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第12話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第12話 <span>人間だって</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode13.html" data-ep="13">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第13話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第13話 <span>トレンド１位</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode14.html" data-ep="14">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第14話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第14話 <span>やっちまったな</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode15.html" data-ep="15">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第15話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第15話 <span>こんな全員参加新キャラも回は嫌だ</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode16.html" data-ep="16">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第16話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第16話 <span>殺意のナイフ</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode17.html" data-ep="17">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第17話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第17話 <span>裏切り者</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode18.html" data-ep="18">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第18話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第18話 <span>再現VTRすな！</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode19.html" data-ep="19">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第19話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第19話 <span>沼鬼が影を操るワケない!!!</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode20.html" data-ep="20">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第20話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第20話 <span>能力者バトルにおいて最強とは初見殺しがベスト</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode21.html" data-ep="21">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第21話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第21話 <span>この世界は狂ってる...。</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode22.html" data-ep="22">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第22話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第22話 <span>一番必要なのは</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode23.html" data-ep="23">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第23話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第23話 <span>作戦は戦いの内</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode24.html" data-ep="24">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第24話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第24話 <span>俺はここにいる</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode25.html" data-ep="25">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第25話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第25話 <span>6月4日</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode26.html" data-ep="26">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第26話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第26話 <span>6月5日</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode27.html" data-ep="27">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第27話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第27話 <span>6月5日 その②</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode28.html" data-ep="28">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第28話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第28話 <span>6月5日 その③</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode29.html" data-ep="29">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第29話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第29話 <span>6月5日 その④</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode30.html" data-ep="30">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第30話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第30話 <span>6月6日</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode31.html" data-ep="31">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第31話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第31話 <span>6月6日 その②</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode32.html" data-ep="32">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第32話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第32話 <span>6月6日 その③-④-⑤</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode33.html" data-ep="33">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第33話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第33話 <span>今まで育ててくれてありがとう</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode34.html" data-ep="34">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第34話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第34話 <span>進み続ける</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode35.html" data-ep="35">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第35話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第35話 <span>6月6日 その⑥ー⑦</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode36.html" data-ep="36">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第36話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第36話 <span>鬼神VS橋姫</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode37.html" data-ep="37">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第37話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第37話 <span>6月6日 その⑧ー⑨ー⑩ー⑪</span></div></div>
+<div class="episode-read">読む</div></a><div class="episode-row preparing" data-ep="38">
+<div class="episode-thumb placeholder">38</div>
+<div class="episode-meta"><div class="episode-title">第38話 <span>準備中</span></div><div class="episode-sub">公開準備中です</div></div>
+<div class="episode-status">準備中</div></div><div class="episode-row preparing" data-ep="39">
+<div class="episode-thumb placeholder">39</div>
+<div class="episode-meta"><div class="episode-title">第39話 <span>準備中</span></div><div class="episode-sub">公開準備中です</div></div>
+<div class="episode-status">準備中</div></div><div class="episode-row preparing" data-ep="40">
+<div class="episode-thumb placeholder">40</div>
+<div class="episode-meta"><div class="episode-title">第40話 <span>準備中</span></div><div class="episode-sub">公開準備中です</div></div>
+<div class="episode-status">準備中</div></div><a class="episode-row" href="episode41.html" data-ep="41">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第41話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第41話 <span>6月6日 その⑫ー⑬ー⑭</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode42.html" data-ep="42">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第42話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第42話 <span>もう付き合っちゃえよ！</span></div></div>
+<div class="episode-read">読む</div></a><a class="episode-row" href="episode43.html" data-ep="43">
+<div class="episode-thumb placeholder thumbnail-pending" aria-label="第43話 サムネイル未設定"></div>
+<div class="episode-meta"><div class="episode-title">第43話 <span>終演曲</span></div></div>
+<div class="episode-read">読む</div></a></div></section>
+
+<section id="volumes" class="jp-panel">
+  <div class="comics-header">
+    <span>全8巻</span>
+    <div class="comics-sort"><span>1巻から</span><span>|</span><span class="active">最新巻から</span></div>
+  </div>
+  <div class="volume-list"><a class="volume-tile" href="volume1.html">
+<img src="pages/volume1-cover.jpg" alt="第1巻 表紙">
+<div><strong>第1巻</strong><span>第1話〜第4話</span></div></a><a class="volume-tile" href="volume2.html">
+<img src="pages/volume2-cover.jpg" alt="第2巻 表紙">
+<div><strong>第2巻</strong><span>第5話〜第10話</span></div></a><a class="volume-tile" href="volume3.html">
+<img src="pages/volume3-cover.jpg" alt="第3巻 表紙">
+<div><strong>第3巻</strong><span>第11話〜第16話</span></div></a><a class="volume-tile" href="volume4.html">
+<img src="pages/volume4-cover.jpg" alt="第4巻 表紙">
+<div><strong>第4巻</strong><span>第17話〜第22話</span></div></a><a class="volume-tile" href="volume5.html">
+<img src="pages/volume5-cover.jpg" alt="第5巻 表紙">
+<div><strong>第5巻</strong><span>第23話〜第28話</span></div></a><a class="volume-tile" href="volume6.html">
+<img src="pages/volume6-cover.jpg" alt="第6巻 表紙">
+<div><strong>第6巻</strong><span>第29話〜第34話</span></div></a><a class="volume-tile" href="volume7.html">
+<img src="pages/volume7-cover.jpg" alt="第7巻 表紙">
+<div><strong>第7巻</strong><span>第35話〜第40話</span></div></a><a class="volume-tile" href="volume8.html">
+<img src="pages/volume8-cover.jpg" alt="第8巻 表紙">
+<div><strong>第8巻</strong><span>第41話〜第43話</span></div></a></div>
+</section>
+
+<section id="info" class="jp-panel">
+  <div class="info-panel">
+    <div class="work-intro">
+      <div class="work-catch">これがオーガキングダムの世界！</div>
+      <p class="work-summary">
+        鬼とDEMONキラーたちが交差する、手描きのオリジナル漫画。
+        戦いと能力、仲間たちの物語を第1話から最新話まで公開しています。
+      </p>
+      <div class="author-chip">YUURI・SAKU</div>
+      <div class="info-links">
+        <a class="jp-btn" href="demon-encyclopedia.html">DEMON図鑑</a>
+        <a class="jp-btn" href="correlation.html">相関図</a>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h2>同じ作者の作品</h2>
+      <a class="author-work-card" href="https://saku3298.github.io/rikarikai/" target="_blank" rel="noopener">
+        <img src="pages/volume1-cover.jpg" alt="リカリカイ">
+        <div>
+          <div class="author-work-title">リカリカイ</div>
+          <div class="author-work-author">作者：SAKU</div>
+          <div class="author-work-label">コミックス</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+<div class="continue-bar"><a href="episode43.html">最新話 第43話を読む</a></div>
+</div>
+<script>
+const tabs=[...document.querySelectorAll('.jp-tab')], panels=[...document.querySelectorAll('.jp-panel')];
+tabs.forEach(btn=>btn.onclick=()=>{tabs.forEach(x=>x.classList.remove('active'));panels.forEach(x=>x.classList.remove('active'));btn.classList.add('active');document.getElementById(btn.dataset.tab).classList.add('active');});
+const rows=[...document.querySelectorAll('.episode-row')], rs=[...document.querySelectorAll('.range-btn')];
+function showRange(key){const [a,b]=key.split('-').map(Number);rows.forEach(r=>{const n=+r.dataset.ep;r.style.display=(n>=a&&n<=b)?'grid':'none';})}
+rs.forEach(btn=>btn.onclick=()=>{rs.forEach(x=>x.classList.remove('active'));btn.classList.add('active');showRange(btn.dataset.range);});
+showRange('1-10');
+</script></body></html>
