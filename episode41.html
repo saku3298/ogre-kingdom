@@ -58,87 +58,100 @@
 
 
 
-<style id="responsive-manga-reader-style">
+
+
+
+
+
+
+<style id="jumpplus-landscape-fix">
 .viewer{
   position:relative !important;
   overflow:hidden !important;
   width:100% !important;
   max-width:100% !important;
   margin:0 auto !important;
-  touch-action:pan-y !important;
   background:#111;
+  touch-action:pan-y !important;
 }
 .reader-slide{
   position:absolute;
-  top:0;
-  left:0;
+  inset:0 auto auto 0;
   width:100%;
   display:none;
   align-items:flex-start;
   justify-content:center;
-  will-change:transform;
   background:#111;
+  will-change:transform;
 }
 .reader-slide.is-active,
 .reader-slide.is-next,
 .reader-slide.is-prev{
   display:flex;
 }
-.reader-slide.spread{
-  flex-direction:row-reverse;
-}
-.reader-slide .manga-page{
-  position:relative !important;
-  top:auto !important;
-  left:auto !important;
-  display:flex !important;
-  align-items:flex-start;
+.reader-slide.single{
   justify-content:center;
-  background:#111;
 }
 .reader-slide.single .manga-page{
-  width:100% !important;
   flex:0 0 100%;
+  width:100%;
+  display:flex !important;
+  justify-content:center;
 }
-.reader-slide.spread .manga-page{
-  width:50% !important;
-  flex:0 0 50%;
-}
-.reader-slide .manga-page img{
+.reader-slide.single .manga-page img{
   width:100% !important;
   height:auto !important;
-  max-width:100% !important;
   display:block;
-  margin:0;
 }
-@media (orientation:landscape) and (max-width:1000px){
-  .reader-slide.spread .manga-page img{
-    max-height:calc(100vh - 48px);
-    width:auto !important;
-    max-width:100% !important;
-    object-fit:contain;
-  }
+.reader-slide.spread{
+  flex-direction:row-reverse;
+  justify-content:center;
+  align-items:flex-start;
+  gap:0 !important;
 }
-</style>
+.reader-slide.spread .manga-page{
+  flex:0 1 auto !important;
+  width:auto !important;
+  display:flex !important;
+  margin:0 !important;
+  padding:0 !important;
+  justify-content:center;
+  align-items:flex-start;
+}
+.reader-slide.spread .manga-page img{
+  display:block;
+  height:auto !important;
+  width:auto !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 !important;
+}
 
-
-<style id="landscape-force-two-pages">
 @media (orientation: landscape){
-  .reader-slide.spread{
-    display:flex !important;
-    flex-direction:row-reverse !important;
-    width:100% !important;
+  .viewer{
+    height:calc(100dvh - 42px) !important;
+    min-height:320px;
+  }
+  .reader-slide{
+    height:100% !important;
+    align-items:flex-start;
   }
   .reader-slide.spread .manga-page{
-    flex:0 0 50% !important;
-    width:50% !important;
-    max-width:50% !important;
+    height:100% !important;
+    max-width:50vw !important;
   }
   .reader-slide.spread .manga-page img{
-    width:100% !important;
-    height:auto !important;
-    max-width:100% !important;
+    height:100% !important;
+    width:auto !important;
+    max-width:50vw !important;
     object-fit:contain !important;
+  }
+}
+
+/* PC/タブレットの横長画面でも同じ見開き */
+@media (min-width:1001px) and (orientation: landscape){
+  .viewer{
+    height:calc(100dvh - 42px) !important;
   }
 }
 </style>
@@ -184,47 +197,55 @@
 
 
 
-<script id="responsive-manga-reader-script">
+
+
+
+<script id="jumpplus-landscape-script">
 (function(){
   const viewer=document.querySelector('.viewer');
   if(!viewer) return;
 
-  const originalPages=[...viewer.querySelectorAll('.manga-page')];
-  if(!originalPages.length) return;
+  // 元ページを一度だけ取得
+  let originals=[...viewer.querySelectorAll('.manga-page')];
+  if(!originals.length) return;
 
   const counter=document.getElementById('counter');
   const topBtn=document.getElementById('top');
-  let slides=[];
-  let slideIndex=0;
-  let currentPageIndex=0;
-  let startX=0,startY=0,dx=0,dragging=false,locked=null,animating=false;
-  let landscapeMode=false;
+  const prevBtn=document.getElementById('prev'); // 左側＝次
+  const nextBtn=document.getElementById('next'); // 右側＝前
 
-  function isLandscapeSpread(){
+  let slides=[];
+  let index=0;
+  let currentPage=0;
+  let landscape=false;
+  let startX=0,startY=0,dx=0,dragging=false,axis=null,animating=false;
+
+  function isLandscape(){
     return window.innerWidth > window.innerHeight;
   }
 
-  function buildSlides(){
-    // 現在表示しているページ番号を保持
-    const currentPage=currentPageIndex;
+  function build(){
+    // 現在のページ番号を保持して組み直す
+    currentPage = slides[index] ? Number(slides[index].dataset.start||0) : currentPage;
 
     viewer.innerHTML='';
     slides=[];
-    landscapeMode=isLandscapeSpread();
+    landscape=isLandscape();
 
-    if(landscapeMode){
-      for(let i=0;i<originalPages.length;i+=2){
+    if(landscape){
+      // 右に若いページ、左に次ページ（漫画の見開き）
+      for(let i=0;i<originals.length;i+=2){
         const slide=document.createElement('div');
         slide.className='reader-slide spread';
         slide.dataset.start=String(i);
-        slide.appendChild(originalPages[i]);
-        if(originalPages[i+1]) slide.appendChild(originalPages[i+1]);
+        slide.appendChild(originals[i]);        // row-reverseにより右側
+        if(originals[i+1]) slide.appendChild(originals[i+1]); // 左側
         viewer.appendChild(slide);
         slides.push(slide);
       }
-      slideIndex=Math.floor(currentPage/2);
+      index=Math.floor(currentPage/2);
     }else{
-      originalPages.forEach((page,i)=>{
+      originals.forEach((page,i)=>{
         const slide=document.createElement('div');
         slide.className='reader-slide single';
         slide.dataset.start=String(i);
@@ -232,40 +253,31 @@
         viewer.appendChild(slide);
         slides.push(slide);
       });
-      slideIndex=Math.min(currentPage,slides.length-1);
+      index=Math.min(currentPage, slides.length-1);
     }
 
     prepare();
   }
 
-  function slideStart(i){
-    return Number(slides[i]?.dataset.start || 0);
-  }
-
-  function setViewerHeight(){
-    const s=slides[slideIndex];
-    if(!s) return;
-
-    const imgs=[...s.querySelectorAll('img')];
-    const apply=()=>{
-      const h=Math.max(...[...s.children].map(el=>el.offsetHeight),0);
-      viewer.style.height=h+'px';
-    };
-
-    if(imgs.every(img=>img.complete)) requestAnimationFrame(apply);
-    else imgs.forEach(img=>img.addEventListener('load',()=>requestAnimationFrame(apply),{once:true}));
-  }
-
   function updateCounter(){
     if(!counter) return;
-    const start=slideStart(slideIndex);
-    currentPageIndex=start;
-
-    if(landscapeMode && start+1<originalPages.length){
-      counter.textContent=(start+1)+'-'+(start+2)+' / '+originalPages.length;
+    const start=Number(slides[index]?.dataset.start||0);
+    currentPage=start;
+    if(landscape && start+1<originals.length){
+      counter.textContent=(start+1)+'-'+(start+2)+' / '+originals.length;
     }else{
-      counter.textContent=(start+1)+' / '+originalPages.length;
+      counter.textContent=(start+1)+' / '+originals.length;
     }
+  }
+
+  function fitPortraitHeight(){
+    if(landscape) return; // 横向きはCSSで画面高に固定
+    const s=slides[index];
+    if(!s) return;
+    const img=s.querySelector('img');
+    const apply=()=>{ viewer.style.height=s.offsetHeight+'px'; };
+    if(img && img.complete) requestAnimationFrame(apply);
+    else if(img) img.addEventListener('load',()=>requestAnimationFrame(apply),{once:true});
   }
 
   function prepare(){
@@ -273,158 +285,141 @@
       s.classList.remove('is-active','is-next','is-prev');
       s.style.transition='none';
       s.style.transform='translateX(0)';
-      if(i===slideIndex){
+      if(i===index){
         s.classList.add('is-active');
-        s.style.transform='translateX(0)';
-      }else if(i===slideIndex+1){
+      }else if(i===index+1){
         s.classList.add('is-next');
         s.style.transform='translateX(-100%)';
-      }else if(i===slideIndex-1){
+      }else if(i===index-1){
         s.classList.add('is-prev');
         s.style.transform='translateX(100%)';
       }
     });
+    if(landscape){
+      viewer.style.height='calc(100dvh - 42px)';
+    }else{
+      viewer.style.height='auto';
+      fitPortraitHeight();
+    }
     updateCounter();
-    setViewerHeight();
   }
 
-  function animateTo(newIndex,direction){
+  function animateTo(newIndex,dir){
     if(animating || newIndex<0 || newIndex>=slides.length) return;
     animating=true;
-
-    const cur=slides[slideIndex];
-    const other=slides[newIndex];
-    cur.style.transition='transform .22s ease';
-    other.style.transition='transform .22s ease';
-
-    if(direction==='next'){
-      // 右へスワイプ：今の見開きが右へ、次の見開きが左から入る
+    const cur=slides[index], other=slides[newIndex];
+    cur.style.transition='transform .20s ease';
+    other.style.transition='transform .20s ease';
+    if(dir==='next'){
       cur.style.transform='translateX(100%)';
       other.style.transform='translateX(0)';
     }else{
-      // 左へスワイプ：今の見開きが左へ、前の見開きが右から入る
       cur.style.transform='translateX(-100%)';
       other.style.transform='translateX(0)';
     }
-
     setTimeout(()=>{
-      slideIndex=newIndex;
-      currentPageIndex=slideStart(slideIndex);
+      index=newIndex;
       animating=false;
       prepare();
-    },230);
+    },210);
   }
 
-  function snapBack(){
-    const cur=slides[slideIndex];
-    const next=slides[slideIndex+1];
-    const prev=slides[slideIndex-1];
-    [cur,next,prev].forEach(s=>{if(s)s.style.transition='transform .18s ease';});
+  function snap(){
+    const cur=slides[index], n=slides[index+1], p=slides[index-1];
+    [cur,n,p].forEach(x=>{if(x)x.style.transition='transform .15s ease';});
     if(cur) cur.style.transform='translateX(0)';
-    if(next) next.style.transform='translateX(-100%)';
-    if(prev) prev.style.transform='translateX(100%)';
-    setTimeout(prepare,190);
+    if(n) n.style.transform='translateX(-100%)';
+    if(p) p.style.transform='translateX(100%)';
+    setTimeout(prepare,160);
   }
 
   viewer.addEventListener('touchstart',e=>{
     if(animating || e.touches.length!==1) return;
     const t=e.touches[0];
-    startX=t.clientX;
-    startY=t.clientY;
-    dx=0;
-    dragging=true;
-    locked=null;
-    [slides[slideIndex],slides[slideIndex+1],slides[slideIndex-1]].forEach(s=>{
-      if(s)s.style.transition='none';
+    startX=t.clientX; startY=t.clientY; dx=0; dragging=true; axis=null;
+    [slides[index],slides[index+1],slides[index-1]].forEach(x=>{
+      if(x)x.style.transition='none';
     });
   },{passive:true});
 
   viewer.addEventListener('touchmove',e=>{
     if(!dragging || e.touches.length!==1) return;
     const t=e.touches[0];
-    const moveX=t.clientX-startX;
-    const moveY=t.clientY-startY;
-
-    if(locked===null){
-      if(Math.abs(moveX)<8 && Math.abs(moveY)<8) return;
-      locked=Math.abs(moveX)>Math.abs(moveY)?'x':'y';
+    let mx=t.clientX-startX, my=t.clientY-startY;
+    if(axis===null){
+      if(Math.abs(mx)<8 && Math.abs(my)<8) return;
+      axis=Math.abs(mx)>Math.abs(my)?'x':'y';
     }
-    if(locked!=='x') return;
+    if(axis!=='x') return;
 
     e.preventDefault();
-    dx=moveX;
-    const cur=slides[slideIndex];
-    const next=slides[slideIndex+1];
-    const prev=slides[slideIndex-1];
+    dx=mx;
+    const cur=slides[index], n=slides[index+1], p=slides[index-1];
     const w=viewer.clientWidth||1;
 
     if(dx>0){
-      if(slideIndex>=slides.length-1) dx*=0.25;
+      if(index>=slides.length-1) dx*=0.25;
       cur.style.transform=`translateX(${dx}px)`;
-      if(next) next.style.transform=`translateX(${-w+dx}px)`;
+      if(n) n.style.transform=`translateX(${-w+dx}px)`;
     }else{
-      if(slideIndex<=0) dx*=0.25;
+      if(index<=0) dx*=0.25;
       cur.style.transform=`translateX(${dx}px)`;
-      if(prev) prev.style.transform=`translateX(${w+dx}px)`;
+      if(p) p.style.transform=`translateX(${w+dx}px)`;
     }
   },{passive:false});
 
   viewer.addEventListener('touchend',()=>{
     if(!dragging) return;
     dragging=false;
-    if(locked!=='x'){prepare();return;}
-
-    const threshold=Math.min(90,(viewer.clientWidth||1)*0.18);
-    if(dx>threshold && slideIndex<slides.length-1){
-      animateTo(slideIndex+1,'next');
-    }else if(dx<-threshold && slideIndex>0){
-      animateTo(slideIndex-1,'prev');
-    }else{
-      snapBack();
-    }
+    if(axis!=='x'){ prepare(); return; }
+    const threshold=Math.min(90,(viewer.clientWidth||1)*0.16);
+    if(dx>threshold && index<slides.length-1) animateTo(index+1,'next');
+    else if(dx<-threshold && index>0) animateTo(index-1,'prev');
+    else snap();
   },{passive:true});
 
-  const prevBtn=document.getElementById('prev'); // 左側「次のページ」
-  const nextBtn=document.getElementById('next'); // 右側「前のページ」
-  if(prevBtn) prevBtn.onclick=()=>animateTo(slideIndex+1,'next');
-  if(nextBtn) nextBtn.onclick=()=>animateTo(slideIndex-1,'prev');
+  // マウスホイール/トラックパッドでも送れるようにする
+  let wheelLock=false;
+  viewer.addEventListener('wheel',e=>{
+    if(wheelLock) return;
+    const amount=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY;
+    if(Math.abs(amount)<20) return;
+    e.preventDefault();
+    wheelLock=true;
+    if(amount<0 && index<slides.length-1) animateTo(index+1,'next');
+    else if(amount>0 && index>0) animateTo(index-1,'prev');
+    setTimeout(()=>wheelLock=false,280);
+  },{passive:false});
 
-  if(topBtn){
-    topBtn.onclick=()=>{
-      currentPageIndex=0;
-      slideIndex=0;
-      prepare();
-      window.scrollTo({top:0,behavior:'smooth'});
-    };
-  }
+  if(prevBtn) prevBtn.onclick=()=>animateTo(index+1,'next');
+  if(nextBtn) nextBtn.onclick=()=>animateTo(index-1,'prev');
+
+  if(topBtn) topBtn.onclick=()=>{
+    currentPage=0; index=0; prepare();
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
 
   document.addEventListener('keydown',e=>{
-    if(e.key==='ArrowRight') animateTo(slideIndex+1,'next');
-    if(e.key==='ArrowLeft') animateTo(slideIndex-1,'prev');
+    if(e.key==='ArrowLeft') animateTo(index+1,'next');
+    if(e.key==='ArrowRight') animateTo(index-1,'prev');
   });
 
-  let resizeTimer;
-  function rebuildForOrientation(){
-    clearTimeout(resizeTimer);
-    resizeTimer=setTimeout(()=>{
-      const newMode=isLandscapeSpread();
-      if(newMode!==landscapeMode){
-        buildSlides();
-      }else{
-        prepare();
-      }
-    },250);
+  let timer;
+  function onRotate(){
+    clearTimeout(timer);
+    timer=setTimeout(()=>{
+      const newLandscape=isLandscape();
+      if(newLandscape!==landscape) build();
+      else prepare();
+    },220);
   }
-
-  window.addEventListener('resize', rebuildForOrientation);
-  window.addEventListener('orientationchange', ()=>{
-    setTimeout(rebuildForOrientation, 350);
-    setTimeout(rebuildForOrientation, 700);
+  window.addEventListener('resize',onRotate);
+  window.addEventListener('orientationchange',()=>{
+    setTimeout(onRotate,300);
+    setTimeout(onRotate,650);
   });
 
-  // 初回表示時もレイアウト確定後に再判定
-  buildSlides();
-  setTimeout(rebuildForOrientation, 300);
+  build();
 })();
 </script>
 
