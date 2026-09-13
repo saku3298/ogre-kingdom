@@ -1,5 +1,53 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>第42話「もう付き合っちゃえよ！」 | オーガキングダム</title><link rel="stylesheet" href="assets/style.css"></head>
+<title>第42話「もう付き合っちゃえよ！」 | オーガキングダム</title><link rel="stylesheet" href="assets/style.css">
+<style id="horizontal-reader">
+.reader-page{overflow-x:hidden}
+.viewer{
+  display:flex !important;
+  overflow-x:auto !important;
+  overflow-y:hidden !important;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  width:100%;
+  height:auto;
+  gap:0 !important;
+  scroll-behavior:smooth;
+}
+.viewer::-webkit-scrollbar{display:none}
+.viewer{scrollbar-width:none}
+.manga-page{
+  flex:0 0 100%;
+  width:100%;
+  min-width:100%;
+  scroll-snap-align:start;
+  scroll-snap-stop:always;
+  display:flex !important;
+  justify-content:center;
+  align-items:flex-start;
+}
+.manga-page img{
+  width:auto !important;
+  max-width:100% !important;
+  height:auto !important;
+  max-height:none !important;
+  display:block;
+  margin:0 auto;
+}
+.page-swipe-hint{
+  text-align:center;
+  padding:10px 12px;
+  font-size:14px;
+  color:#888;
+}
+@media(min-width:900px){
+  .viewer{
+    max-width:900px;
+    margin:0 auto;
+  }
+}
+</style>
+
+</head>
 <body class="reader-page"><header class="reader-bar"><div class="reader-bar-inner"><div class="reader-title">
 <a id="context-back" href="index.html">← 話一覧へ戻る</a><strong>第42話「もう付き合っちゃえよ！」</strong></div>
 <div class="reader-controls"><a class="small-btn" href="demon-encyclopedia.html">DEMON図鑑</a><a class="small-btn" href="correlation.html">相関図</a></div></div></header>
@@ -34,6 +82,55 @@
       a.setAttribute('href', href + '?from=comics');
     });
   }
+})();
+</script>
+
+
+<script id="horizontal-reader-script">
+(function(){
+  const viewer=document.querySelector('.viewer');
+  if(!viewer) return;
+
+  // 既存の1ページ表示/縦表示切替UIは横スワイプ化後は不要
+  const mode=document.getElementById('mode');
+  if(mode) mode.style.display='none';
+
+  const pages=[...viewer.querySelectorAll('.manga-page')];
+  const counter=document.getElementById('counter');
+
+  function currentIndex(){
+    if(!viewer.clientWidth) return 0;
+    return Math.round(viewer.scrollLeft/viewer.clientWidth);
+  }
+  function updateCounter(){
+    if(counter){
+      counter.textContent=(currentIndex()+1)+' / '+pages.length;
+    }
+  }
+  function go(delta){
+    const idx=Math.max(0,Math.min(pages.length-1,currentIndex()+delta));
+    viewer.scrollTo({left:idx*viewer.clientWidth,behavior:'smooth'});
+  }
+
+  const prev=document.getElementById('prev');
+  const next=document.getElementById('next');
+  if(prev) prev.onclick=()=>go(-1);
+  if(next) next.onclick=()=>go(1);
+
+  let ticking=false;
+  viewer.addEventListener('scroll',()=>{
+    if(!ticking){
+      requestAnimationFrame(()=>{updateCounter();ticking=false;});
+      ticking=true;
+    }
+  });
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowLeft') go(-1);
+    if(e.key==='ArrowRight') go(1);
+  });
+
+  updateCounter();
 })();
 </script>
 
