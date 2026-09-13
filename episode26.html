@@ -12,27 +12,34 @@ modeBtn.onclick=()=>{single=!single;body.classList.toggle('single',single);modeB
 prev.onclick=()=>{enableSingle();idx=Math.max(0,idx-1);show()};next.onclick=()=>{enableSingle();idx=Math.min(pages.length-1,idx+1);show()};top.onclick=()=>scrollTo({top:0,behavior:'smooth'});
 document.addEventListener('keydown',e=>{if(!single)return;if(e.key==='ArrowLeft')prev.click();if(e.key==='ArrowRight')next.click()});
 </script>
+
+
 <script>
 (function(){
-  const params=new URLSearchParams(location.search);
-  const fromComics=params.get('from')==='comics';
-  const back=document.getElementById('context-back');
-  if(back){
-    if(fromComics){
-      back.href='volume5.html';
-      back.textContent='← 第5巻へ戻る';
-    }else{
-      back.href='index.html';
-      back.textContent='← 話一覧へ戻る';
+  const params = new URLSearchParams(window.location.search);
+  const ref = document.referrer || '';
+  const fromComics =
+    params.get('from') === 'comics' ||
+    /volume\d+\.html/.test(ref);
+
+  const back = document.getElementById('context-back');
+  if (back) {
+    if (fromComics) {
+      back.href = 'volume5.html';
+      back.textContent = '← 第5巻へ戻る';
+    } else {
+      back.href = 'index.html';
+      back.textContent = '← 話一覧へ戻る';
     }
   }
-  if(fromComics){
-    document.querySelectorAll('a[href^="episode"]').forEach(a=>{
-      const u=new URL(a.getAttribute('href'), location.href);
-      u.searchParams.set('from','comics');
-      a.setAttribute('href',u.pathname.split('/').pop()+u.search);
+
+  if (fromComics) {
+    document.querySelectorAll('a[href^="episode"]').forEach(function(a) {
+      const href = a.getAttribute('href').split('?')[0];
+      a.setAttribute('href', href + '?from=comics');
     });
   }
 })();
 </script>
+
 </body></html>

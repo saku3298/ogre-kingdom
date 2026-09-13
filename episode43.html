@@ -13,27 +13,34 @@
 <div class="reader-footer"><a href="index.html">HOME</a>　|　<a href="volume8.html">第8巻</a>　|　
 <a href="demon-encyclopedia.html">DEMON図鑑</a>　|　<a href="correlation.html">相関図</a></div>
 
+
+
 <script>
 (function(){
-  const params=new URLSearchParams(location.search);
-  const fromComics=params.get('from')==='comics';
-  const back=document.getElementById('context-back');
-  if(back){
-    if(fromComics){
-      back.href='volume8.html';
-      back.textContent='← 第8巻へ戻る';
-    }else{
-      back.href='index.html';
-      back.textContent='← 話一覧へ戻る';
+  const params = new URLSearchParams(window.location.search);
+  const ref = document.referrer || '';
+  const fromComics =
+    params.get('from') === 'comics' ||
+    /volume\d+\.html/.test(ref);
+
+  const back = document.getElementById('context-back');
+  if (back) {
+    if (fromComics) {
+      back.href = 'volume8.html';
+      back.textContent = '← 第8巻へ戻る';
+    } else {
+      back.href = 'index.html';
+      back.textContent = '← 話一覧へ戻る';
     }
   }
-  if(fromComics){
-    document.querySelectorAll('a[href^="episode"]').forEach(a=>{
-      const u=new URL(a.getAttribute('href'), location.href);
-      u.searchParams.set('from','comics');
-      a.setAttribute('href',u.pathname.split('/').pop()+u.search);
+
+  if (fromComics) {
+    document.querySelectorAll('a[href^="episode"]').forEach(function(a) {
+      const href = a.getAttribute('href').split('?')[0];
+      a.setAttribute('href', href + '?from=comics');
     });
   }
 })();
 </script>
+
 </body></html>
