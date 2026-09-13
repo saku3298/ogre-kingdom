@@ -47,6 +47,59 @@
 }
 </style>
 
+
+<style id="compact-reader-header">
+.reader-bar{
+  padding:0 !important;
+  min-height:0 !important;
+}
+.reader-bar-inner{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:8px !important;
+  min-height:42px !important;
+  padding:4px 10px !important;
+}
+.reader-title{
+  display:block !important;
+  margin:0 !important;
+}
+.reader-title strong{
+  display:none !important;
+}
+.reader-controls{
+  display:flex !important;
+  align-items:center !important;
+  gap:6px !important;
+  margin:0 !important;
+}
+.reader-controls > *{
+  display:none !important;
+}
+.reader-controls #top{
+  display:inline-flex !important;
+}
+.reader-title #context-back{
+  display:inline-flex !important;
+  align-items:center;
+  min-height:30px;
+  padding:2px 4px;
+  font-size:12px !important;
+  white-space:nowrap;
+}
+#top{
+  min-height:30px !important;
+  padding:4px 10px !important;
+  font-size:12px !important;
+}
+.page-swipe-hint{display:none !important}
+@media(max-width:600px){
+  .reader-bar-inner{min-height:38px !important;padding:3px 8px !important}
+  .reader-title #context-back,#top{font-size:11px !important}
+}
+</style>
+
 </head>
 <body class="reader-page"><header class="reader-bar"><div class="reader-bar-inner"><div class="reader-title"><a id="context-back" href="index.html">← 話一覧へ戻る</a><strong>第26話「6月5日」</strong></div>
 <div class="reader-controls"><button class="small-btn" id="mode">1ページ表示</button><button class="small-btn" id="top">先頭へ</button><a class="small-btn" href="demon-encyclopedia.html">DEMON図鑑</a><a class="small-btn" href="correlation.html">相関図</a></div></div></header>
@@ -84,48 +137,64 @@
 </script>
 
 
-<script id="horizontal-reader-script">
+
+
+
+<script id="reverse-swipe-script">
 (function(){
   const viewer=document.querySelector('.viewer');
   if(!viewer) return;
 
-  // 既存の1ページ表示/縦表示切替UIは横スワイプ化後は不要
-  const mode=document.getElementById('mode');
-  if(mode) mode.style.display='none';
-
   const pages=[...viewer.querySelectorAll('.manga-page')];
   const counter=document.getElementById('counter');
+  const prev=document.getElementById('prev');
+  const next=document.getElementById('next');
+  const topBtn=document.getElementById('top');
 
   function currentIndex(){
     if(!viewer.clientWidth) return 0;
     return Math.round(viewer.scrollLeft/viewer.clientWidth);
   }
   function updateCounter(){
-    if(counter){
-      counter.textContent=(currentIndex()+1)+' / '+pages.length;
-    }
+    if(counter) counter.textContent=(currentIndex()+1)+' / '+pages.length;
   }
-  function go(delta){
-    const idx=Math.max(0,Math.min(pages.length-1,currentIndex()+delta));
+  function goTo(idx){
+    idx=Math.max(0,Math.min(pages.length-1,idx));
     viewer.scrollTo({left:idx*viewer.clientWidth,behavior:'smooth'});
   }
+  function go(delta){ goTo(currentIndex()+delta); }
 
-  const prev=document.getElementById('prev');
-  const next=document.getElementById('next');
   if(prev) prev.onclick=()=>go(-1);
   if(next) next.onclick=()=>go(1);
+  if(topBtn) topBtn.onclick=()=>goTo(0);
 
-  let ticking=false;
+  let startX=0,startY=0,tracking=false;
+  viewer.addEventListener('touchstart',e=>{
+    if(e.touches.length!==1) return;
+    startX=e.touches[0].clientX;
+    startY=e.touches[0].clientY;
+    tracking=true;
+  },{passive:true});
+
+  viewer.addEventListener('touchend',e=>{
+    if(!tracking || !e.changedTouches.length) return;
+    tracking=false;
+    const dx=e.changedTouches[0].clientX-startX;
+    const dy=e.changedTouches[0].clientY-startY;
+    if(Math.abs(dx)<45 || Math.abs(dx)<Math.abs(dy)) return;
+
+    // 漫画式：右スワイプで次、左スワイプで前
+    if(dx>0) go(1);
+    else go(-1);
+  },{passive:true});
+
   viewer.addEventListener('scroll',()=>{
-    if(!ticking){
-      requestAnimationFrame(()=>{updateCounter();ticking=false;});
-      ticking=true;
-    }
-  });
+    requestAnimationFrame(updateCounter);
+  },{passive:true});
 
   document.addEventListener('keydown',e=>{
-    if(e.key==='ArrowLeft') go(-1);
-    if(e.key==='ArrowRight') go(1);
+    if(e.key==='ArrowLeft') go(1);
+    if(e.key==='ArrowRight') go(-1);
   });
 
   updateCounter();
