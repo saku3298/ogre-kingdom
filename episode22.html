@@ -122,6 +122,28 @@
 }
 </style>
 
+
+<style id="landscape-force-two-pages">
+@media (orientation: landscape){
+  .reader-slide.spread{
+    display:flex !important;
+    flex-direction:row-reverse !important;
+    width:100% !important;
+  }
+  .reader-slide.spread .manga-page{
+    flex:0 0 50% !important;
+    width:50% !important;
+    max-width:50% !important;
+  }
+  .reader-slide.spread .manga-page img{
+    width:100% !important;
+    height:auto !important;
+    max-width:100% !important;
+    object-fit:contain !important;
+  }
+}
+</style>
+
 </head>
 <body class="reader-page"><header class="reader-bar"><div class="reader-bar-inner"><div class="reader-title"><a id="context-back" href="index.html">← 話一覧へ戻る</a><strong>第22話「一番必要なのは」</strong></div>
 <div class="reader-controls"><button class="small-btn" id="mode">1ページ表示</button><button class="small-btn" id="top">先頭へ</button><a class="small-btn" href="demon-encyclopedia.html">DEMON図鑑</a><a class="small-btn" href="correlation.html">相関図</a></div></div></header>
@@ -185,7 +207,7 @@
   let landscapeMode=false;
 
   function isLandscapeSpread(){
-    return window.matchMedia('(orientation: landscape)').matches && window.innerWidth <= 1000;
+    return window.innerWidth > window.innerHeight;
   }
 
   function buildSlides(){
@@ -388,7 +410,7 @@
   });
 
   let resizeTimer;
-  window.addEventListener('resize',()=>{
+  function rebuildForOrientation(){
     clearTimeout(resizeTimer);
     resizeTimer=setTimeout(()=>{
       const newMode=isLandscapeSpread();
@@ -397,10 +419,18 @@
       }else{
         prepare();
       }
-    },120);
+    },250);
+  }
+
+  window.addEventListener('resize', rebuildForOrientation);
+  window.addEventListener('orientationchange', ()=>{
+    setTimeout(rebuildForOrientation, 350);
+    setTimeout(rebuildForOrientation, 700);
   });
 
+  // 初回表示時もレイアウト確定後に再判定
   buildSlides();
+  setTimeout(rebuildForOrientation, 300);
 })();
 </script>
 
