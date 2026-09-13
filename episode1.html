@@ -100,6 +100,27 @@
 }
 </style>
 
+
+<style id="manga-swipe-direction-fix">
+.viewer{
+  display:flex !important;
+  flex-direction:row-reverse !important;
+  overflow-x:auto !important;
+  overflow-y:hidden !important;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scroll-behavior:smooth;
+}
+.viewer::-webkit-scrollbar{display:none}
+.viewer{scrollbar-width:none}
+.manga-page{
+  flex:0 0 100% !important;
+  min-width:100% !important;
+  scroll-snap-align:start;
+  scroll-snap-stop:always;
+}
+</style>
+
 </head>
 <body class="reader-page"><header class="reader-bar"><div class="reader-bar-inner"><div class="reader-title">
 <a id="context-back" href="index.html">← 話一覧へ戻る</a><strong>第1話「DEMONキラーの兄妹」</strong></div>
@@ -145,7 +166,10 @@
 
 
 
-<script id="reverse-swipe-script">
+
+
+
+<script id="manga-swipe-direction-script">
 (function(){
   const viewer=document.querySelector('.viewer');
   if(!viewer) return;
@@ -156,53 +180,53 @@
   const next=document.getElementById('next');
   const topBtn=document.getElementById('top');
 
+  function maxScroll(){
+    return Math.max(0, viewer.scrollWidth - viewer.clientWidth);
+  }
+
+  // row-reverseなので、第1ページは一番右端
   function currentIndex(){
-    if(!viewer.clientWidth) return 0;
-    return Math.round(viewer.scrollLeft/viewer.clientWidth);
+    const pageWidth=viewer.clientWidth || 1;
+    return Math.round((maxScroll() - viewer.scrollLeft) / pageWidth);
   }
+
   function updateCounter(){
-    if(counter) counter.textContent=(currentIndex()+1)+' / '+pages.length;
+    const idx=Math.max(0,Math.min(pages.length-1,currentIndex()));
+    if(counter) counter.textContent=(idx+1)+' / '+pages.length;
   }
-  function goTo(idx){
+
+  function goTo(idx, smooth=true){
     idx=Math.max(0,Math.min(pages.length-1,idx));
-    viewer.scrollTo({left:idx*viewer.clientWidth,behavior:'smooth'});
+    const left=maxScroll() - idx*viewer.clientWidth;
+    viewer.scrollTo({left:left,behavior:smooth?'smooth':'auto'});
   }
-  function go(delta){ goTo(currentIndex()+delta); }
+
+  function go(delta){ goTo(currentIndex()+delta,true); }
 
   if(prev) prev.onclick=()=>go(-1);
   if(next) next.onclick=()=>go(1);
-  if(topBtn) topBtn.onclick=()=>goTo(0);
+  if(topBtn) topBtn.onclick=()=>goTo(0,true);
 
-  let startX=0,startY=0,tracking=false;
-  viewer.addEventListener('touchstart',e=>{
-    if(e.touches.length!==1) return;
-    startX=e.touches[0].clientX;
-    startY=e.touches[0].clientY;
-    tracking=true;
-  },{passive:true});
-
-  viewer.addEventListener('touchend',e=>{
-    if(!tracking || !e.changedTouches.length) return;
-    tracking=false;
-    const dx=e.changedTouches[0].clientX-startX;
-    const dy=e.changedTouches[0].clientY-startY;
-    if(Math.abs(dx)<45 || Math.abs(dx)<Math.abs(dy)) return;
-
-    // 漫画式：右スワイプで次、左スワイプで前
-    if(dx>0) go(1);
-    else go(-1);
-  },{passive:true});
+  // PCキー操作も漫画のページ送り方向に合わせる
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
 
   viewer.addEventListener('scroll',()=>{
     requestAnimationFrame(updateCounter);
   },{passive:true});
 
-  document.addEventListener('keydown',e=>{
-    if(e.key==='ArrowLeft') go(1);
-    if(e.key==='ArrowRight') go(-1);
+  // 初期表示は第1ページ（右端）
+  requestAnimationFrame(()=>{
+    goTo(0,false);
+    updateCounter();
   });
 
-  updateCounter();
+  window.addEventListener('resize',()=>{
+    const idx=currentIndex();
+    requestAnimationFrame(()=>goTo(idx,false));
+  });
 })();
 </script>
 
