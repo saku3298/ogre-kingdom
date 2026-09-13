@@ -1,51 +1,6 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>第18話「再現VTRすな！」 | オーガキングダム</title><link rel="stylesheet" href="assets/style.css">
-<style id="horizontal-reader">
-.reader-page{overflow-x:hidden}
-.viewer{
-  display:flex !important;
-  overflow-x:auto !important;
-  overflow-y:hidden !important;
-  scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
-  width:100%;
-  height:auto;
-  gap:0 !important;
-  scroll-behavior:smooth;
-}
-.viewer::-webkit-scrollbar{display:none}
-.viewer{scrollbar-width:none}
-.manga-page{
-  flex:0 0 100%;
-  width:100%;
-  min-width:100%;
-  scroll-snap-align:start;
-  scroll-snap-stop:always;
-  display:flex !important;
-  justify-content:center;
-  align-items:flex-start;
-}
-.manga-page img{
-  width:auto !important;
-  max-width:100% !important;
-  height:auto !important;
-  max-height:none !important;
-  display:block;
-  margin:0 auto;
-}
-.page-swipe-hint{
-  text-align:center;
-  padding:10px 12px;
-  font-size:14px;
-  color:#888;
-}
-@media(min-width:900px){
-  .viewer{
-    max-width:900px;
-    margin:0 auto;
-  }
-}
-</style>
+
 
 
 <style id="compact-reader-header">
@@ -101,23 +56,37 @@
 </style>
 
 
-<style id="manga-swipe-direction-fix">
+<style id="true-manga-swipe-style">
 .viewer{
-  display:flex !important;
-  flex-direction:row-reverse !important;
-  overflow-x:auto !important;
-  overflow-y:hidden !important;
-  scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
-  scroll-behavior:smooth;
+  position:relative !important;
+  overflow:hidden !important;
+  width:100% !important;
+  max-width:100% !important;
+  margin:0 auto !important;
+  touch-action:pan-y !important;
 }
-.viewer::-webkit-scrollbar{display:none}
-.viewer{scrollbar-width:none}
 .manga-page{
-  flex:0 0 100% !important;
+  position:absolute !important;
+  top:0;
+  left:0;
+  width:100% !important;
   min-width:100% !important;
-  scroll-snap-align:start;
-  scroll-snap-stop:always;
+  display:none !important;
+  justify-content:center;
+  align-items:flex-start;
+  will-change:transform;
+  background:#111;
+}
+.manga-page.is-active,
+.manga-page.is-next,
+.manga-page.is-prev{
+  display:flex !important;
+}
+.manga-page img{
+  width:100% !important;
+  height:auto !important;
+  max-width:100% !important;
+  display:block;
 }
 </style>
 
@@ -128,7 +97,7 @@
 <a class="small-btn" href="demon-encyclopedia.html">DEMON図鑑</a><a class="small-btn" href="correlation.html">相関図</a></div></div></header>
 <main class="viewer" id="viewer"><div class="manga-page" data-i="0"><img src="pages/episode18-001.jpg" alt="第18話 ページ 1"></div><div class="manga-page" data-i="1"><img src="pages/episode18-002.jpg" alt="第18話 ページ 2"></div><div class="manga-page" data-i="2"><img loading="lazy" src="pages/episode18-003.jpg" alt="第18話 ページ 3"></div><div class="manga-page" data-i="3"><img loading="lazy" src="pages/episode18-004.jpg" alt="第18話 ページ 4"></div><div class="manga-page" data-i="4"><img loading="lazy" src="pages/episode18-005.jpg" alt="第18話 ページ 5"></div><div class="manga-page" data-i="5"><img loading="lazy" src="pages/episode18-006.jpg" alt="第18話 ページ 6"></div><div class="manga-page" data-i="6"><img loading="lazy" src="pages/episode18-007.jpg" alt="第18話 ページ 7"></div><div class="manga-page" data-i="7"><img loading="lazy" src="pages/episode18-008.jpg" alt="第18話 ページ 8"></div><div class="manga-page" data-i="8"><img loading="lazy" src="pages/episode18-009.jpg" alt="第18話 ページ 9"></div><div class="manga-page" data-i="9"><img loading="lazy" src="pages/episode18-010.jpg" alt="第18話 ページ 10"></div><div class="manga-page" data-i="10"><img loading="lazy" src="pages/episode18-011.jpg" alt="第18話 ページ 11"></div><div class="manga-page" data-i="11"><img loading="lazy" src="pages/episode18-012.jpg" alt="第18話 ページ 12"></div></main>
 <div class="episode-nav"><a class="small-btn" href="episode17.html">← 第17話</a><a class="small-btn" href="volume4.html">第4巻の目次</a><a class="small-btn" href="episode19.html">第19話 →</a></div>
-<div class="page-nav"><button id="prev">← 前のページ</button><button id="next">次のページ →</button></div>
+<div class="page-nav"><button id="prev">← 次のページ</button><button id="next">前のページ →</button></div>
 <div class="counter" id="counter">1 / 1</div>
 <div class="reader-footer"><a href="index.html">HOME</a>　|　<a href="volume4.html">第4巻</a>　|　<a href="demon-encyclopedia.html">DEMON図鑑</a>　|　<a href="correlation.html">相関図</a></div>
 
@@ -169,64 +138,169 @@
 
 
 
-<script id="manga-swipe-direction-script">
+<script id="true-manga-swipe-script">
 (function(){
   const viewer=document.querySelector('.viewer');
   if(!viewer) return;
 
   const pages=[...viewer.querySelectorAll('.manga-page')];
+  if(!pages.length) return;
+
   const counter=document.getElementById('counter');
-  const prev=document.getElementById('prev');
-  const next=document.getElementById('next');
   const topBtn=document.getElementById('top');
+  let index=0;
+  let startX=0,startY=0,dx=0,dragging=false,locked=null;
+  let animating=false;
 
-  function maxScroll(){
-    return Math.max(0, viewer.scrollWidth - viewer.clientWidth);
+  function setViewerHeight(){
+    const img=pages[index].querySelector('img');
+    if(!img) return;
+    const apply=()=>{
+      viewer.style.height=pages[index].offsetHeight+'px';
+    };
+    if(img.complete) requestAnimationFrame(apply);
+    else img.addEventListener('load',()=>requestAnimationFrame(apply),{once:true});
   }
 
-  // row-reverseなので、第1ページは一番右端
-  function currentIndex(){
-    const pageWidth=viewer.clientWidth || 1;
-    return Math.round((maxScroll() - viewer.scrollLeft) / pageWidth);
+  function prepare(){
+    pages.forEach((p,i)=>{
+      p.classList.remove('is-active','is-next','is-prev');
+      p.style.transition='none';
+      p.style.transform='translateX(0)';
+      if(i===index){
+        p.classList.add('is-active');
+        p.style.transform='translateX(0)';
+      }else if(i===index+1){
+        p.classList.add('is-next');
+        p.style.transform='translateX(-100%)';
+      }else if(i===index-1){
+        p.classList.add('is-prev');
+        p.style.transform='translateX(100%)';
+      }
+    });
+    if(counter) counter.textContent=(index+1)+' / '+pages.length;
+    setViewerHeight();
   }
 
-  function updateCounter(){
-    const idx=Math.max(0,Math.min(pages.length-1,currentIndex()));
-    if(counter) counter.textContent=(idx+1)+' / '+pages.length;
+  function animateTo(newIndex, direction){
+    if(animating) return;
+    animating=true;
+
+    const cur=pages[index];
+    const other=pages[newIndex];
+    if(!cur || !other){ animating=false; return; }
+
+    cur.style.transition='transform .22s ease';
+    other.style.transition='transform .22s ease';
+
+    if(direction==='next'){
+      // 右へスワイプ:
+      // 現在ページは右へ消える / 次ページは左から入る
+      cur.style.transform='translateX(100%)';
+      other.style.transform='translateX(0)';
+    }else{
+      // 左へスワイプ:
+      // 現在ページは左へ消える / 前ページは右から入る
+      cur.style.transform='translateX(-100%)';
+      other.style.transform='translateX(0)';
+    }
+
+    setTimeout(()=>{
+      index=newIndex;
+      animating=false;
+      prepare();
+    },230);
   }
 
-  function goTo(idx, smooth=true){
-    idx=Math.max(0,Math.min(pages.length-1,idx));
-    const left=maxScroll() - idx*viewer.clientWidth;
-    viewer.scrollTo({left:left,behavior:smooth?'smooth':'auto'});
+  function snapBack(){
+    const cur=pages[index];
+    const next=pages[index+1];
+    const prev=pages[index-1];
+    [cur,next,prev].forEach(p=>{if(p)p.style.transition='transform .18s ease';});
+    if(cur) cur.style.transform='translateX(0)';
+    if(next) next.style.transform='translateX(-100%)';
+    if(prev) prev.style.transform='translateX(100%)';
+    setTimeout(prepare,190);
   }
 
-  function go(delta){ goTo(currentIndex()+delta,true); }
+  viewer.addEventListener('touchstart',e=>{
+    if(animating || e.touches.length!==1) return;
+    const t=e.touches[0];
+    startX=t.clientX; startY=t.clientY;
+    dx=0; dragging=true; locked=null;
 
-  if(prev) prev.onclick=()=>go(-1);
-  if(next) next.onclick=()=>go(1);
-  if(topBtn) topBtn.onclick=()=>goTo(0,true);
-
-  // PCキー操作も漫画のページ送り方向に合わせる
-  document.addEventListener('keydown',e=>{
-    if(e.key==='ArrowRight') go(1);
-    if(e.key==='ArrowLeft') go(-1);
-  });
-
-  viewer.addEventListener('scroll',()=>{
-    requestAnimationFrame(updateCounter);
+    [pages[index],pages[index+1],pages[index-1]].forEach(p=>{
+      if(p)p.style.transition='none';
+    });
   },{passive:true});
 
-  // 初期表示は第1ページ（右端）
-  requestAnimationFrame(()=>{
-    goTo(0,false);
-    updateCounter();
+  viewer.addEventListener('touchmove',e=>{
+    if(!dragging || e.touches.length!==1) return;
+    const t=e.touches[0];
+    const moveX=t.clientX-startX;
+    const moveY=t.clientY-startY;
+
+    if(locked===null){
+      if(Math.abs(moveX)<8 && Math.abs(moveY)<8) return;
+      locked=Math.abs(moveX)>Math.abs(moveY)?'x':'y';
+    }
+    if(locked!=='x') return;
+
+    e.preventDefault();
+    dx=moveX;
+
+    const cur=pages[index];
+    const next=pages[index+1];
+    const prev=pages[index-1];
+    const w=viewer.clientWidth || 1;
+
+    if(dx>0){
+      // 右へ指を動かす: 次ページを左から引き込む
+      if(index>=pages.length-1){ dx*=0.25; }
+      cur.style.transform=`translateX(${dx}px)`;
+      if(next) next.style.transform=`translateX(${-w+dx}px)`;
+    }else{
+      // 左へ指を動かす: 前ページを右から引き込む
+      if(index<=0){ dx*=0.25; }
+      cur.style.transform=`translateX(${dx}px)`;
+      if(prev) prev.style.transform=`translateX(${w+dx}px)`;
+    }
+  },{passive:false});
+
+  viewer.addEventListener('touchend',()=>{
+    if(!dragging) return;
+    dragging=false;
+
+    if(locked!=='x'){ prepare(); return; }
+
+    const threshold=Math.min(90,(viewer.clientWidth||1)*0.18);
+
+    if(dx>threshold && index<pages.length-1){
+      animateTo(index+1,'next');
+    }else if(dx<-threshold && index>0){
+      animateTo(index-1,'prev');
+    }else{
+      snapBack();
+    }
+  },{passive:true});
+
+  if(topBtn){
+    topBtn.onclick=()=>{
+      index=0;
+      prepare();
+      window.scrollTo({top:0,behavior:'smooth'});
+    };
+  }
+
+  // PC確認用
+  document.addEventListener('keydown',e=>{
+    if(animating) return;
+    if(e.key==='ArrowRight' && index<pages.length-1) animateTo(index+1,'next');
+    if(e.key==='ArrowLeft' && index>0) animateTo(index-1,'prev');
   });
 
-  window.addEventListener('resize',()=>{
-    const idx=currentIndex();
-    requestAnimationFrame(()=>goTo(idx,false));
-  });
+  window.addEventListener('resize',prepare);
+  prepare();
 })();
 </script>
 
