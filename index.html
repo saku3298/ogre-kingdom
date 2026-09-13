@@ -131,7 +131,7 @@ body{margin:0;background:#fff;color:#111;font-family:-apple-system,BlinkMacSyste
 <section class="jp-hero"><img src="pages/volume8-cover.jpg" alt="第8巻 表紙"><div class="jp-hero-right"><div class="jp-logo">OGRE<br>KINGDOM</div></div></section>
 <section class="jp-info"><h1 class="jp-title">オーガキングダム</h1><div class="jp-author">YUURI・SAKU</div>
 <div class="jp-actions"><a class="jp-btn primary" href="episode1.html">第1話から読む</a><a class="jp-btn" href="episode43.html">最新話から読む</a></div></section>
-<nav class="jp-tabs"><button class="jp-tab active" data-tab="episodes">話</button><button class="jp-tab" data-tab="volumes">コミックス</button><button class="jp-tab" data-tab="info">作品情報</button></nav>
+<nav class="jp-tabs"><button class="jp-tab active" data-tab="episodes">話</button><button class="jp-tab" data-tab="comics">コミックス</button><button class="jp-tab" data-tab="info">作品情報</button></nav>
 <section id="episodes" class="jp-panel active">
 <div class="range-bar"><button class="range-btn active" data-range="1-10">1-10</button><button class="range-btn" data-range="11-20">11-20</button><button class="range-btn" data-range="21-30">21-30</button><button class="range-btn" data-range="31-40">31-40</button><button class="range-btn" data-range="41-50">41-</button></div>
 <div><a class="episode-row" href="episode1.html" data-ep="1">
@@ -265,7 +265,7 @@ body{margin:0;background:#fff;color:#111;font-family:-apple-system,BlinkMacSyste
 <div class="episode-meta"><div class="episode-title">第43話 <span>終演曲</span></div></div>
 <div class="episode-read">読む</div></a></div></section>
 
-<section id="volumes" class="jp-panel">
+<section id="comics" class="jp-panel">
   <div class="comics-header">
     <span>全8巻</span>
     <div class="comics-sort"><span>1巻から</span><span>|</span><span class="active">最新巻から</span></div>
@@ -307,7 +307,7 @@ body{margin:0;background:#fff;color:#111;font-family:-apple-system,BlinkMacSyste
     <div class="info-section">
       <h2>同じ作者の作品</h2>
       <a class="author-work-card" href="https://saku3298.github.io/rikarikai/" target="_blank" rel="noopener">
-        <img src="pages/volume1-cover.jpg" alt="リカリカイ">
+        <img src="pages/rikarikai-cover.jpg" alt="リカリカイ">
         <div>
           <div class="author-work-title">リカリカイ</div>
           <div class="author-work-author">作者：SAKU</div>
@@ -321,9 +321,24 @@ body{margin:0;background:#fff;color:#111;font-family:-apple-system,BlinkMacSyste
 </div>
 <script>
 const tabs=[...document.querySelectorAll('.jp-tab')], panels=[...document.querySelectorAll('.jp-panel')];
-tabs.forEach(btn=>btn.onclick=()=>{tabs.forEach(x=>x.classList.remove('active'));panels.forEach(x=>x.classList.remove('active'));btn.classList.add('active');document.getElementById(btn.dataset.tab).classList.add('active');});
+function openTab(name, updateHash=true){
+  tabs.forEach(x=>x.classList.remove('active'));
+  panels.forEach(x=>x.classList.remove('active'));
+  const btn=tabs.find(x=>x.dataset.tab===name);
+  const panel=document.getElementById(name);
+  if(btn&&panel){btn.classList.add('active');panel.classList.add('active');}
+  if(updateHash){
+    if(name==='comics') history.replaceState(null,'','#comics');
+    else if(name==='info') history.replaceState(null,'','#info');
+    else history.replaceState(null,'',location.pathname);
+  }
+}
+tabs.forEach(btn=>btn.onclick=()=>openTab(btn.dataset.tab,true));
 const rows=[...document.querySelectorAll('.episode-row')], rs=[...document.querySelectorAll('.range-btn')];
 function showRange(key){const [a,b]=key.split('-').map(Number);rows.forEach(r=>{const n=+r.dataset.ep;r.style.display=(n>=a&&n<=b)?'grid':'none';})}
 rs.forEach(btn=>btn.onclick=()=>{rs.forEach(x=>x.classList.remove('active'));btn.classList.add('active');showRange(btn.dataset.range);});
 showRange('1-10');
+if(location.hash==='#comics') openTab('comics',false);
+else if(location.hash==='#info') openTab('info',false);
+else openTab('episodes',false);
 </script></body></html>
