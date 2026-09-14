@@ -156,6 +156,41 @@ body{margin:0;background:#fff;color:#111;font-family:-apple-system,BlinkMacSyste
   .author-work-card{grid-template-columns:100px 1fr}
   .author-work-card img{width:100px;height:135px}
 }
+
+/* 話・コミックス 並び順切替 */
+.episode-sort-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 22px 8px;
+  color:#777;
+  font-size:18px;
+}
+.sort-switch{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:800;
+}
+.sort-btn{
+  appearance:none;
+  border:0;
+  background:transparent;
+  padding:4px 0;
+  color:#888;
+  font:inherit;
+  cursor:pointer;
+}
+.sort-btn.active{color:#ef3b35}
+@media(max-width:600px){
+  .episode-sort-header,.comics-header{
+    padding-left:14px;
+    padding-right:14px;
+    font-size:16px;
+  }
+  .sort-switch{gap:9px}
+}
+
 </style>
 
 </head><body>
@@ -165,6 +200,14 @@ body{margin:0;background:#fff;color:#111;font-family:-apple-system,BlinkMacSyste
 <div class="jp-actions"><a class="jp-btn primary" href="episode1.html">第1話から読む</a><a class="jp-btn" href="episode44.html">最新話から読む</a></div></section>
 <nav class="jp-tabs"><button class="jp-tab active" data-tab="episodes">話</button><button class="jp-tab" data-tab="comics">コミックス</button><button class="jp-tab" data-tab="info">作品情報</button></nav>
 <section id="episodes" class="jp-panel active">
+<div class="episode-sort-header">
+  <span>全44話</span>
+  <div class="sort-switch episode-sort">
+    <button type="button" class="sort-btn active" data-order="asc">1話から</button>
+    <span>|</span>
+    <button type="button" class="sort-btn" data-order="desc">最新話から</button>
+  </div>
+</div>
 <div class="range-bar"><button class="range-btn active" data-range="1-10">1-10</button><button class="range-btn" data-range="11-20">11-20</button><button class="range-btn" data-range="21-30">21-30</button><button class="range-btn" data-range="31-40">31-40</button><button class="range-btn" data-range="41-50">41-</button></div>
 <div><a class="episode-row" href="episode1.html" data-ep="1">
 <img class="episode-thumb" src="pages/thumb-episode01.jpg" alt="第1話 DEMONキラーの兄妹">
@@ -300,7 +343,11 @@ body{margin:0;background:#fff;color:#111;font-family:-apple-system,BlinkMacSyste
 <section id="comics" class="jp-panel">
   <div class="comics-header">
     <span>全8巻</span>
-    <div class="comics-sort"><span>1巻から</span><span>|</span><span class="active">最新巻から</span></div>
+    <div class="sort-switch comics-sort">
+      <button type="button" class="sort-btn active" data-order="asc">1巻から</button>
+      <span>|</span>
+      <button type="button" class="sort-btn" data-order="desc">最新巻から</button>
+    </div>
   </div>
   <div class="volume-list"><a class="volume-tile" href="volume1.html">
 <img src="pages/volume1-cover.jpg" alt="第1巻 表紙">
@@ -367,7 +414,9 @@ body{margin:0;background:#fff;color:#111;font-family:-apple-system,BlinkMacSyste
 <div class="continue-bar"><a href="episode44.html">最新話 第44話を読む</a></div>
 </div>
 <script>
-const tabs=[...document.querySelectorAll('.jp-tab')], panels=[...document.querySelectorAll('.jp-panel')];
+const tabs=[...document.querySelectorAll('.jp-tab')],
+      panels=[...document.querySelectorAll('.jp-panel')];
+
 function openTab(name, updateHash=true){
   tabs.forEach(x=>x.classList.remove('active'));
   panels.forEach(x=>x.classList.remove('active'));
@@ -381,10 +430,75 @@ function openTab(name, updateHash=true){
   }
 }
 tabs.forEach(btn=>btn.onclick=()=>openTab(btn.dataset.tab,true));
-const rows=[...document.querySelectorAll('.episode-row')], rs=[...document.querySelectorAll('.range-btn')];
-function showRange(key){const [a,b]=key.split('-').map(Number);rows.forEach(r=>{const n=+r.dataset.ep;r.style.display=(n>=a&&n<=b)?'grid':'none';})}
-rs.forEach(btn=>btn.onclick=()=>{rs.forEach(x=>x.classList.remove('active'));btn.classList.add('active');showRange(btn.dataset.range);});
-showRange('1-10');
+
+/* ---------- 話：1話から / 最新話から ---------- */
+const episodePanel=document.getElementById('episodes');
+const episodeList=episodePanel.querySelector('.episode-row').parentElement;
+const rows=[...episodePanel.querySelectorAll('.episode-row')];
+const rangeBar=episodePanel.querySelector('.range-bar');
+const rangeButtons=[...rangeBar.querySelectorAll('.range-btn')];
+const episodeSortButtons=[...episodePanel.querySelectorAll('.episode-sort .sort-btn')];
+
+function showRange(key){
+  const [a,b]=key.split('-').map(Number);
+  rows.forEach(r=>{
+    const n=+r.dataset.ep;
+    r.style.display=(n>=a&&n<=b)?'grid':'none';
+  });
+}
+
+function activateRange(btn){
+  rangeButtons.forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active');
+  showRange(btn.dataset.range);
+}
+
+rangeButtons.forEach(btn=>btn.onclick=()=>activateRange(btn));
+
+function setEpisodeOrder(order){
+  episodeSortButtons.forEach(b=>b.classList.toggle('active',b.dataset.order===order));
+
+  const sortedRows=[...rows].sort((a,b)=>{
+    const av=+a.dataset.ep, bv=+b.dataset.ep;
+    return order==='asc' ? av-bv : bv-av;
+  });
+  sortedRows.forEach(r=>episodeList.appendChild(r));
+
+  const sortedRanges=[...rangeButtons].sort((a,b)=>{
+    const av=+a.dataset.range.split('-')[0], bv=+b.dataset.range.split('-')[0];
+    return order==='asc' ? av-bv : bv-av;
+  });
+  sortedRanges.forEach(b=>rangeBar.appendChild(b));
+
+  const target = order==='asc'
+    ? rangeButtons.reduce((m,b)=>+b.dataset.range.split('-')[0] < +m.dataset.range.split('-')[0] ? b : m)
+    : rangeButtons.reduce((m,b)=>+b.dataset.range.split('-')[0] > +m.dataset.range.split('-')[0] ? b : m);
+  activateRange(target);
+}
+
+episodeSortButtons.forEach(btn=>btn.onclick=()=>setEpisodeOrder(btn.dataset.order));
+setEpisodeOrder('asc');
+
+/* ---------- コミックス：1巻から / 最新巻から ---------- */
+const comicsPanel=document.getElementById('comics');
+const volumeList=comicsPanel.querySelector('.volume-list');
+const volumes=[...volumeList.querySelectorAll('.volume-tile')];
+const comicSortButtons=[...comicsPanel.querySelectorAll('.comics-sort .sort-btn')];
+
+volumes.forEach((v,i)=>v.dataset.volume=i+1);
+
+function setComicOrder(order){
+  comicSortButtons.forEach(b=>b.classList.toggle('active',b.dataset.order===order));
+  [...volumes]
+    .sort((a,b)=>{
+      const av=+a.dataset.volume, bv=+b.dataset.volume;
+      return order==='asc' ? av-bv : bv-av;
+    })
+    .forEach(v=>volumeList.appendChild(v));
+}
+comicSortButtons.forEach(btn=>btn.onclick=()=>setComicOrder(btn.dataset.order));
+setComicOrder('asc');
+
 if(location.hash==='#comics') openTab('comics',false);
 else if(location.hash==='#info') openTab('info',false);
 else openTab('episodes',false);
