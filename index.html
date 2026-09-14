@@ -42,6 +42,38 @@ body{margin:0;background:#fff;color:#111;font-family:-apple-system,BlinkMacSyste
   border:1px solid #e2e2e2;
   box-sizing:border-box;
 }
+
+.line-sticker-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+.line-sticker-card{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  padding:18px;
+  border:1px solid #e5e5e5;
+  border-radius:14px;
+  background:#fff;
+}
+.line-sticker-title{font-size:19px;font-weight:900;line-height:1.45}
+.line-sticker-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  border-radius:999px;
+  background:#06c755;
+  color:#fff;
+  text-decoration:none;
+  font-weight:900;
+  padding:9px 16px;
+}
+@media(max-width:600px){
+  .line-sticker-grid{grid-template-columns:1fr}
+}
+
 </style>
 <style id="v3-overrides">
 /* コミックス：ジャンプ＋風の縦一覧 */
@@ -301,6 +333,21 @@ body{margin:0;background:#fff;color:#111;font-family:-apple-system,BlinkMacSyste
       <div class="info-links">
         <a class="jp-btn" href="demon-encyclopedia.html">DEMON図鑑</a>
         <a class="jp-btn" href="correlation.html">相関図</a>
+      </div>
+    </div>
+
+
+    <div class="info-section">
+      <h2>LINEスタンプ</h2>
+      <div class="line-sticker-grid">
+        <div class="line-sticker-card">
+          <div class="line-sticker-title">⚡️♯オーガキングダム♯⚡️</div>
+          <a class="line-sticker-btn" href="https://line.me/S/sticker/33148390/?lang=ja&utm_source=gnsh_stickerDetail" target="_blank" rel="noopener">LINE STOREで見る</a>
+        </div>
+        <div class="line-sticker-card">
+          <div class="line-sticker-title">⚡️♯オーガキングダム♯⚡️第2弾</div>
+          <a class="line-sticker-btn" href="https://line.me/S/sticker/33735787/?lang=ja&utm_source=gnsh_stickerDetail" target="_blank" rel="noopener">LINE STOREで見る</a>
+        </div>
       </div>
     </div>
 
