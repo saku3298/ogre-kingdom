@@ -1,0 +1,119 @@
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.protected-lock {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(8, 8, 10, .96);
+  color: #fff;
+}
+
+.protected-lock[hidden] {
+  display: none;
+}
+
+.protected-lock-card {
+  width: min(100%, 420px);
+  padding: 28px 22px;
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 16px;
+  background: #18181c;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, .45);
+  text-align: center;
+}
+
+.protected-lock-mark {
+  margin: 0 0 8px;
+  font-size: 34px;
+  line-height: 1;
+}
+
+.protected-lock h1 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+
+.protected-lock p {
+  margin: 0 0 18px;
+  color: #d3d3d8;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.protected-lock-form {
+  display: grid;
+  gap: 12px;
+}
+
+.protected-lock input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 14px;
+  border: 1px solid #5a5a62;
+  border-radius: 10px;
+  background: #fff;
+  color: #111;
+  font: inherit;
+  font-size: 18px;
+}
+
+.protected-lock button {
+  min-height: 48px;
+  border: 0;
+  border-radius: 10px;
+  background: #f4c542;
+  color: #151515;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.protected-lock button:disabled {
+  cursor: wait;
+  opacity: .65;
+}
+
+.protected-lock-error {
+  min-height: 1.5em;
+  margin: 0 !important;
+  color: #ff8686 !important;
+  font-weight: 700;
+}
+
+.protected-locked {
+  overflow: hidden;
+}
+
+.protected-locked .viewer {
+  visibility: hidden;
+}
+
+.protected-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 6px;
+  color: #8a6400;
+  font-size: .8em;
+  font-weight: 700;
+}
+
+@media (max-width: 600px) {
+  .protected-lock-card {
+    padding: 24px 18px;
+  }
+}

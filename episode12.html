@@ -1,0 +1,474 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第12話「人間だって」 | オーガキングダム</title><link rel="stylesheet" href="assets/style.css">
+
+
+
+<style id="compact-reader-header">
+.reader-bar{
+  padding:0 !important;
+  min-height:0 !important;
+}
+.reader-bar-inner{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:8px !important;
+  min-height:42px !important;
+  padding:4px 10px !important;
+}
+.reader-title{
+  display:block !important;
+  margin:0 !important;
+}
+.reader-title strong{
+  display:none !important;
+}
+.reader-controls{
+  display:flex !important;
+  align-items:center !important;
+  gap:6px !important;
+  margin:0 !important;
+}
+.reader-controls > *{
+  display:none !important;
+}
+.reader-controls #top{
+  display:inline-flex !important;
+}
+.reader-title #context-back{
+  display:inline-flex !important;
+  align-items:center;
+  min-height:30px;
+  padding:2px 4px;
+  font-size:12px !important;
+  white-space:nowrap;
+}
+#top{
+  min-height:30px !important;
+  padding:4px 10px !important;
+  font-size:12px !important;
+}
+.page-swipe-hint{display:none !important}
+@media(max-width:600px){
+  .reader-bar-inner{min-height:38px !important;padding:3px 8px !important}
+  .reader-title #context-back,#top{font-size:11px !important}
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+<style id="jumpplus-landscape-fix">
+.viewer{
+  position:relative !important;
+  overflow:hidden !important;
+  width:100% !important;
+  max-width:100% !important;
+  margin:0 auto !important;
+  background:#111;
+  touch-action:pan-y !important;
+}
+.reader-slide{
+  position:absolute;
+  inset:0 auto auto 0;
+  width:100%;
+  display:none;
+  align-items:flex-start;
+  justify-content:center;
+  background:#111;
+  will-change:transform;
+}
+.reader-slide.is-active,
+.reader-slide.is-next,
+.reader-slide.is-prev{
+  display:flex;
+}
+.reader-slide.single{
+  justify-content:center;
+}
+.reader-slide.single .manga-page{
+  flex:0 0 100%;
+  width:100%;
+  display:flex !important;
+  justify-content:center;
+}
+.reader-slide.single .manga-page img{
+  width:100% !important;
+  height:auto !important;
+  display:block;
+}
+.reader-slide.spread{
+  flex-direction:row-reverse;
+  justify-content:center;
+  align-items:flex-start;
+  gap:0 !important;
+}
+.reader-slide.spread .manga-page{
+  flex:0 1 auto !important;
+  width:auto !important;
+  display:flex !important;
+  margin:0 !important;
+  padding:0 !important;
+  justify-content:center;
+  align-items:flex-start;
+}
+.reader-slide.spread .manga-page img{
+  display:block;
+  height:auto !important;
+  width:auto !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+.reader-slide.spread .manga-page.blank-page{
+  flex:0 0 auto !important;
+  width:auto !important;
+  height:100% !important;
+  max-width:50vw !important;
+  aspect-ratio:884 / 1254;
+  background:#fff;
+}
+
+@media (orientation: landscape){
+  .viewer{
+    height:calc(100dvh - 42px) !important;
+    min-height:320px;
+  }
+  .reader-slide{
+    height:100% !important;
+    align-items:flex-start;
+  }
+  .reader-slide.spread .manga-page{
+    height:100% !important;
+    max-width:50vw !important;
+  }
+  .reader-slide.spread .manga-page img{
+    height:100% !important;
+    width:auto !important;
+    max-width:50vw !important;
+    object-fit:contain !important;
+  }
+}
+
+/* PC/タブレットの横長画面でも同じ見開き */
+@media (min-width:1001px) and (orientation: landscape){
+  .viewer{
+    height:calc(100dvh - 42px) !important;
+  }
+}
+</style>
+
+</head>
+<body class="reader-page"><header class="reader-bar"><div class="reader-bar-inner"><div class="reader-title">
+<a id="context-back" href="index.html">← 話一覧へ戻る</a><strong>第12話「人間だって」</strong></div>
+<div class="reader-controls"><button class="small-btn" id="mode">1ページ表示</button><button class="small-btn" id="top">先頭へ</button>
+<a class="small-btn" href="demon-encyclopedia.html">DEMON図鑑</a><a class="small-btn" href="correlation.html">相関図</a></div></div></header>
+<main class="viewer" id="viewer"><div class="manga-page" data-i="0"><img src="pages/episode12-001.jpg" alt="第12話 ページ 1"></div><div class="manga-page" data-i="1"><img src="pages/episode12-002.jpg" alt="第12話 ページ 2"></div><div class="manga-page" data-i="2"><img loading="lazy" src="pages/episode12-003.jpg" alt="第12話 ページ 3"></div><div class="manga-page" data-i="3"><img loading="lazy" src="pages/episode12-004.jpg" alt="第12話 ページ 4"></div><div class="manga-page" data-i="4"><img loading="lazy" src="pages/episode12-005.jpg" alt="第12話 ページ 5"></div><div class="manga-page" data-i="5"><img loading="lazy" src="pages/episode12-006.jpg" alt="第12話 ページ 6"></div><div class="manga-page" data-i="6"><img loading="lazy" src="pages/episode12-007.jpg" alt="第12話 ページ 7"></div><div class="manga-page" data-i="7"><img loading="lazy" src="pages/episode12-008.jpg" alt="第12話 ページ 8"></div><div class="manga-page" data-i="8"><img loading="lazy" src="pages/episode12-009.jpg" alt="第12話 ページ 9"></div><div class="manga-page" data-i="9"><img loading="lazy" src="pages/episode12-010.jpg" alt="第12話 ページ 10"></div><div class="manga-page" data-i="10"><img loading="lazy" src="pages/episode12-011.jpg" alt="第12話 ページ 11"></div><div class="manga-page" data-i="11"><img loading="lazy" src="pages/episode12-012.jpg" alt="第12話 ページ 12"></div></main>
+<div class="episode-nav"><a class="small-btn" href="episode13.html">← 第13話</a><a class="small-btn" href="volume3.html">第3巻の目次</a><a class="small-btn" href="episode11.html">第11話 →</a></div>
+<div class="page-nav"><button id="prev">← 次のページ</button><button id="next">前のページ →</button></div>
+<div class="counter" id="counter">1 / 1</div>
+<div class="reader-footer"><a href="index.html">HOME</a>　|　<a href="volume3.html">第3巻</a>　|　<a href="demon-encyclopedia.html">DEMON図鑑</a>　|　<a href="correlation.html">相関図</a></div>
+
+
+
+<script>
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const ref = document.referrer || '';
+  const fromComics =
+    params.get('from') === 'comics' ||
+    /volume\d+\.html/.test(ref);
+
+  const back = document.getElementById('context-back');
+  if (back) {
+    if (fromComics) {
+      back.href = 'volume3.html';
+      back.textContent = '← 第3巻へ戻る';
+    } else {
+      back.href = 'index.html';
+      back.textContent = '← 話一覧へ戻る';
+    }
+  }
+
+  if (fromComics) {
+    document.querySelectorAll('a[href^="episode"]').forEach(function(a) {
+      const href = a.getAttribute('href').split('?')[0];
+      a.setAttribute('href', href + '?from=comics');
+    });
+  }
+})();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script id="jumpplus-landscape-script">
+(function(){
+  const viewer=document.querySelector('.viewer');
+  if(!viewer) return;
+
+  // 元ページを一度だけ取得
+  let originals=[...viewer.querySelectorAll('.manga-page')];
+  if(!originals.length) return;
+
+  const counter=document.getElementById('counter');
+  const topBtn=document.getElementById('top');
+  const prevBtn=document.getElementById('prev'); // 左側＝次
+  const nextBtn=document.getElementById('next'); // 右側＝前
+
+  let slides=[];
+  let index=0;
+  let currentPage=0;
+  let landscape=false;
+  let startX=0,startY=0,dx=0,dragging=false,axis=null,animating=false;
+
+  function isLandscape(){
+    return window.innerWidth > window.innerHeight;
+  }
+
+  function build(){
+    // 現在のページ番号を保持して組み直す
+    currentPage = slides[index] ? Number(slides[index].dataset.start||0) : currentPage;
+
+    viewer.innerHTML='';
+    slides=[];
+    landscape=isLandscape();
+
+    if(landscape){
+      const makeBlank=()=>{
+        const blank=document.createElement('div');
+        blank.className='manga-page blank-page';
+        blank.setAttribute('aria-hidden','true');
+        return blank;
+      };
+
+      const addSpread=(rightPage,leftPage,start,end)=>{
+        const slide=document.createElement('div');
+        slide.className='reader-slide spread';
+        slide.dataset.start=String(start);
+        slide.dataset.end=String(end);
+        // row-reverse: 最初の要素が右側、2番目が左側
+        slide.appendChild(rightPage);
+        slide.appendChild(leftPage);
+        viewer.appendChild(slide);
+        slides.push(slide);
+      };
+
+      // 最初：左に1ページ目、右に仮想白紙
+      addSpread(makeBlank(),originals[0],0,0);
+
+      // 本文：右に偶数ページ、左に続く奇数ページ
+      let i=1;
+      for(;i+1<originals.length;i+=2){
+        addSpread(originals[i],originals[i+1],i,i+1);
+      }
+
+      // 最後に1ページ余る場合：右に最終ページ、左に仮想白紙
+      if(i<originals.length){
+        addSpread(originals[i],makeBlank(),i,i);
+      }
+
+      index=slides.findIndex(slide=>{
+        const start=Number(slide.dataset.start);
+        const end=Number(slide.dataset.end);
+        return currentPage>=start && currentPage<=end;
+      });
+      if(index<0) index=0;
+    }else{
+      originals.forEach((page,i)=>{
+        const slide=document.createElement('div');
+        slide.className='reader-slide single';
+        slide.dataset.start=String(i);
+        slide.appendChild(page);
+        viewer.appendChild(slide);
+        slides.push(slide);
+      });
+      index=Math.min(currentPage, slides.length-1);
+    }
+
+    prepare();
+  }
+
+  function updateCounter(){
+    if(!counter) return;
+    const start=Number(slides[index]?.dataset.start||0);
+    currentPage=start;
+    const end=Number(slides[index]?.dataset.end||start);
+    if(landscape && end>start){
+      counter.textContent=(start+1)+'-'+(end+1)+' / '+originals.length;
+    }else{
+      counter.textContent=(start+1)+' / '+originals.length;
+    }
+  }
+
+  function fitPortraitHeight(){
+    if(landscape) return; // 横向きはCSSで画面高に固定
+    const s=slides[index];
+    if(!s) return;
+    const img=s.querySelector('img');
+    const apply=()=>{ viewer.style.height=s.offsetHeight+'px'; };
+    if(img && img.complete) requestAnimationFrame(apply);
+    else if(img) img.addEventListener('load',()=>requestAnimationFrame(apply),{once:true});
+  }
+
+  function prepare(){
+    slides.forEach((s,i)=>{
+      s.classList.remove('is-active','is-next','is-prev');
+      s.style.transition='none';
+      s.style.transform='translateX(0)';
+      if(i===index){
+        s.classList.add('is-active');
+      }else if(i===index+1){
+        s.classList.add('is-next');
+        s.style.transform='translateX(-100%)';
+      }else if(i===index-1){
+        s.classList.add('is-prev');
+        s.style.transform='translateX(100%)';
+      }
+    });
+    if(landscape){
+      viewer.style.height='calc(100dvh - 42px)';
+    }else{
+      viewer.style.height='auto';
+      fitPortraitHeight();
+    }
+    updateCounter();
+  }
+
+  function animateTo(newIndex,dir){
+    if(animating || newIndex<0 || newIndex>=slides.length) return;
+    animating=true;
+    const cur=slides[index], other=slides[newIndex];
+    cur.style.transition='transform .20s ease';
+    other.style.transition='transform .20s ease';
+    if(dir==='next'){
+      cur.style.transform='translateX(100%)';
+      other.style.transform='translateX(0)';
+    }else{
+      cur.style.transform='translateX(-100%)';
+      other.style.transform='translateX(0)';
+    }
+    setTimeout(()=>{
+      index=newIndex;
+      animating=false;
+      prepare();
+    },210);
+  }
+
+  function snap(){
+    const cur=slides[index], n=slides[index+1], p=slides[index-1];
+    [cur,n,p].forEach(x=>{if(x)x.style.transition='transform .15s ease';});
+    if(cur) cur.style.transform='translateX(0)';
+    if(n) n.style.transform='translateX(-100%)';
+    if(p) p.style.transform='translateX(100%)';
+    setTimeout(prepare,160);
+  }
+
+  viewer.addEventListener('touchstart',e=>{
+    if(animating || e.touches.length!==1) return;
+    const t=e.touches[0];
+    startX=t.clientX; startY=t.clientY; dx=0; dragging=true; axis=null;
+    [slides[index],slides[index+1],slides[index-1]].forEach(x=>{
+      if(x)x.style.transition='none';
+    });
+  },{passive:true});
+
+  viewer.addEventListener('touchmove',e=>{
+    if(!dragging || e.touches.length!==1) return;
+    const t=e.touches[0];
+    let mx=t.clientX-startX, my=t.clientY-startY;
+    if(axis===null){
+      if(Math.abs(mx)<8 && Math.abs(my)<8) return;
+      axis=Math.abs(mx)>Math.abs(my)?'x':'y';
+    }
+    if(axis!=='x') return;
+
+    e.preventDefault();
+    dx=mx;
+    const cur=slides[index], n=slides[index+1], p=slides[index-1];
+    const w=viewer.clientWidth||1;
+
+    if(dx>0){
+      if(index>=slides.length-1) dx*=0.25;
+      cur.style.transform=`translateX(${dx}px)`;
+      if(n) n.style.transform=`translateX(${-w+dx}px)`;
+    }else{
+      if(index<=0) dx*=0.25;
+      cur.style.transform=`translateX(${dx}px)`;
+      if(p) p.style.transform=`translateX(${w+dx}px)`;
+    }
+  },{passive:false});
+
+  viewer.addEventListener('touchend',()=>{
+    if(!dragging) return;
+    dragging=false;
+    if(axis!=='x'){ prepare(); return; }
+    const threshold=Math.min(90,(viewer.clientWidth||1)*0.16);
+    if(dx>threshold && index<slides.length-1) animateTo(index+1,'next');
+    else if(dx<-threshold && index>0) animateTo(index-1,'prev');
+    else snap();
+  },{passive:true});
+
+  // マウスホイール/トラックパッドでも送れるようにする
+  let wheelLock=false;
+  viewer.addEventListener('wheel',e=>{
+    if(wheelLock) return;
+    const amount=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY;
+    if(Math.abs(amount)<20) return;
+    e.preventDefault();
+    wheelLock=true;
+    if(amount<0 && index<slides.length-1) animateTo(index+1,'next');
+    else if(amount>0 && index>0) animateTo(index-1,'prev');
+    setTimeout(()=>wheelLock=false,280);
+  },{passive:false});
+
+  if(prevBtn) prevBtn.onclick=()=>animateTo(index+1,'next');
+  if(nextBtn) nextBtn.onclick=()=>animateTo(index-1,'prev');
+
+  if(topBtn) topBtn.onclick=()=>{
+    currentPage=0; index=0; prepare();
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowLeft') animateTo(index+1,'next');
+    if(e.key==='ArrowRight') animateTo(index-1,'prev');
+  });
+
+  let timer;
+  function onRotate(){
+    clearTimeout(timer);
+    timer=setTimeout(()=>{
+      const newLandscape=isLandscape();
+      if(newLandscape!==landscape) build();
+      else prepare();
+    },220);
+  }
+  window.addEventListener('resize',onRotate);
+  window.addEventListener('orientationchange',()=>{
+    setTimeout(onRotate,300);
+    setTimeout(onRotate,650);
+  });
+
+  build();
+})();
+</script>
+
+</body></html>
