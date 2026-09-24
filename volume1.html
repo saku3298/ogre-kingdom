@@ -1,42 +1,448 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="オリジナル漫画『オーガキングダム』第1巻"><title>第1巻「DEMONキラーの兄妹」 | オーガキングダム</title>
-<link rel="stylesheet" href="assets/style.css">
-<style id="horizontal-episodes">
-.episode-grid{
+<title>第1巻 | オーガキングダム</title><link rel="stylesheet" href="assets/style.css">
+
+
+
+<style id="compact-reader-header">
+.reader-bar{
+  padding:0 !important;
+  min-height:0 !important;
+}
+.reader-bar-inner{
   display:flex !important;
-  gap:16px !important;
-  overflow-x:auto !important;
-  overflow-y:hidden !important;
-  scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
-  padding:4px 2px 18px !important;
-  grid-template-columns:none !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:8px !important;
+  min-height:42px !important;
+  padding:4px 10px !important;
 }
-.episode-grid::-webkit-scrollbar{height:8px}
-.episode-grid::-webkit-scrollbar-thumb{background:#555;border-radius:999px}
-.episode-card{
-  flex:0 0 280px;
-  scroll-snap-align:start;
-  display:block;
+.reader-title{
+  display:block !important;
+  margin:0 !important;
 }
-.episode-card img{
-  width:100%;
-  aspect-ratio:3/4;
-  object-fit:cover;
-  display:block;
+.reader-title strong{
+  display:none !important;
 }
-.episode-card .card-body p{display:none !important}
+.reader-controls{
+  display:flex !important;
+  align-items:center !important;
+  gap:6px !important;
+  margin:0 !important;
+}
+.reader-controls > *{
+  display:none !important;
+}
+.reader-controls #top{
+  display:inline-flex !important;
+}
+.reader-title #context-back{
+  display:inline-flex !important;
+  align-items:center;
+  min-height:30px;
+  padding:2px 4px;
+  font-size:12px !important;
+  white-space:nowrap;
+}
+#top{
+  min-height:30px !important;
+  padding:4px 10px !important;
+  font-size:12px !important;
+}
+.page-swipe-hint{display:none !important}
 @media(max-width:600px){
-  .episode-card{flex-basis:78vw;max-width:320px}
+  .reader-bar-inner{min-height:38px !important;padding:3px 8px !important}
+  .reader-title #context-back,#top{font-size:11px !important}
 }
 </style>
 
-</head><body>
-<header class="site-header"><div class="header-inner"><a class="brand" href="index.html">オーガキングダム<small>OGRE KINGDOM</small></a>
-<nav><a href="index.html#comics">コミックス一覧</a><a href="demon-encyclopedia.html">DEMON図鑑</a><a href="correlation.html">相関図</a></nav></div></header>
-<main><section class="volume-hero"><div class="cover-card"><img src="pages/volume1-cover.jpg" alt="オーガキングダム 第1巻 表紙"></div>
-<div><div class="kicker">VOLUME 1</div><h1>第1巻</h1><h2 class="volume-subtitle">DEMONキラーの兄妹</h2>
-<p class="lead">第1話〜第4話を収録</p>
-<div class="actions"><a class="btn primary" href="episode1.html?from=comics">この巻を読む</a><a class="btn" href="index.html#comics">コミックス一覧へ戻る</a></div></div></section>
-<section class="section"><h2>収録エピソード</h2><div class="episode-grid"><a class="card episode-card" href="episode1.html?from=comics"><img src="pages/episode01-001.jpg" alt="第1話 DEMONキラーの兄妹"><div class="card-body"><span class="badge">第1話</span><strong>DEMONキラーの兄妹</strong></div></a><a class="card episode-card" href="episode2.html?from=comics"><img src="pages/episode02-001.jpg" alt="第2話 ただのかざりだろ？"><div class="card-body"><span class="badge">第2話</span><strong>ただのかざりだろ？</strong></div></a><a class="card episode-card" href="episode3.html?from=comics"><img src="pages/episode03-001.jpg" alt="第3話 その景色に見覚えがある"><div class="card-body"><span class="badge">第3話</span><strong>その景色に見覚えがある</strong></div></a><a class="card episode-card" href="episode4.html?from=comics"><img src="pages/episode04-001.jpg" alt="第4話 止まっていたあなたを前へと動かしてくれたのは"><div class="card-body"><span class="badge">第4話</span><strong>止まっていたあなたを前へと動かしてくれたのは</strong></div></a></div></section></main>
-<footer>© YUURI SAKU / OGRE KINGDOM</footer></body></html>
+
+
+
+
+
+
+
+
+
+
+<style id="jumpplus-landscape-fix">
+.viewer{
+  position:relative !important;
+  overflow:hidden !important;
+  width:100% !important;
+  max-width:100% !important;
+  margin:0 auto !important;
+  background:#111;
+  touch-action:pan-y pinch-zoom !important;
+}
+.reader-slide{
+  position:absolute;
+  inset:0 auto auto 0;
+  width:100%;
+  display:none;
+  align-items:flex-start;
+  justify-content:center;
+  background:#111;
+  will-change:transform;
+}
+.reader-slide.is-active,
+.reader-slide.is-next,
+.reader-slide.is-prev{
+  display:flex;
+}
+.reader-slide.single{
+  justify-content:center;
+}
+.reader-slide.single .manga-page{
+  flex:0 0 100%;
+  width:100%;
+  display:flex !important;
+  justify-content:center;
+}
+.reader-slide.single .manga-page img{
+  width:100% !important;
+  height:auto !important;
+  display:block;
+}
+.reader-slide.spread{
+  flex-direction:row-reverse;
+  justify-content:center;
+  align-items:flex-start;
+  gap:0 !important;
+}
+.reader-slide.spread .manga-page{
+  flex:0 1 auto !important;
+  width:auto !important;
+  display:flex !important;
+  margin:0 !important;
+  padding:0 !important;
+  justify-content:center;
+  align-items:flex-start;
+}
+.reader-slide.spread .manga-page img{
+  display:block;
+  height:auto !important;
+  width:auto !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+.reader-slide.spread .manga-page.blank-page{
+  flex:0 0 auto !important;
+  width:auto !important;
+  height:100% !important;
+  max-width:50vw !important;
+  aspect-ratio:884 / 1254;
+  background:#fff;
+}
+
+@media (orientation: landscape){
+  .viewer{
+    height:calc(100dvh - 42px) !important;
+    min-height:320px;
+  }
+  .reader-slide{
+    height:100% !important;
+    align-items:flex-start;
+  }
+  .reader-slide.spread .manga-page{
+    height:100% !important;
+    max-width:50vw !important;
+  }
+  .reader-slide.spread .manga-page img{
+    height:100% !important;
+    width:auto !important;
+    max-width:50vw !important;
+    object-fit:contain !important;
+  }
+}
+
+/* PC/タブレットの横長画面でも同じ見開き */
+@media (min-width:1001px) and (orientation: landscape){
+  .viewer{
+    height:calc(100dvh - 42px) !important;
+  }
+}
+</style>
+
+</head>
+<body class="reader-page"><header class="reader-bar"><div class="reader-bar-inner"><div class="reader-title">
+<a id="context-back" href="index.html#comics">← コミックス一覧へ戻る</a><strong>第1巻</strong></div>
+<div class="reader-controls"><button class="small-btn" id="mode">1ページ表示</button><button class="small-btn" id="top">先頭へ</button>
+<a class="small-btn" href="demon-encyclopedia.html">DEMON図鑑</a><a class="small-btn" href="correlation.html">相関図</a></div></div></header>
+<main class="viewer" id="viewer"><div class="manga-page" data-volume-cover="true"><img src="pages/volume1-cover.jpg" alt="オーガキングダム 第1巻 表紙"></div><div class="manga-page" data-i="0"><img src="pages/episode01-001.jpg" alt="第1話 ページ 1"></div><div class="manga-page" data-i="1"><img src="pages/episode01-002.jpg" alt="第1話 ページ 2"></div><div class="manga-page" data-i="2"><img loading="lazy" src="pages/episode01-003.jpg" alt="第1話 ページ 3"></div><div class="manga-page" data-i="3"><img loading="lazy" src="pages/episode01-004.jpg" alt="第1話 ページ 4"></div><div class="manga-page" data-i="4"><img loading="lazy" src="pages/episode01-005.jpg" alt="第1話 ページ 5"></div><div class="manga-page" data-i="5"><img loading="lazy" src="pages/episode01-006.jpg" alt="第1話 ページ 6"></div><div class="manga-page" data-i="6"><img loading="lazy" src="pages/episode01-007.jpg" alt="第1話 ページ 7"></div><div class="manga-page" data-i="7"><img loading="lazy" src="pages/episode01-008.jpg" alt="第1話 ページ 8"></div><div class="manga-page" data-i="8"><img loading="lazy" src="pages/episode01-009.jpg" alt="第1話 ページ 9"></div><div class="manga-page" data-i="9"><img loading="lazy" src="pages/episode01-010.jpg" alt="第1話 ページ 10"></div><div class="manga-page" data-i="10"><img loading="lazy" src="pages/episode01-011.jpg" alt="第1話 ページ 11"></div><div class="manga-page" data-i="11"><img loading="lazy" src="pages/episode01-012.jpg" alt="第1話 ページ 12"></div><div class="manga-page" data-i="12"><img loading="lazy" src="pages/episode01-013.jpg" alt="第1話 ページ 13"></div><div class="manga-page" data-i="13"><img loading="lazy" src="pages/episode01-014.jpg" alt="第1話 ページ 14"></div><div class="manga-page" data-i="14"><img loading="lazy" src="pages/episode01-015.jpg" alt="第1話 ページ 15"></div><div class="manga-page" data-i="15"><img loading="lazy" src="pages/episode01-016.jpg" alt="第1話 ページ 16"></div><div class="manga-page" data-i="16"><img loading="lazy" src="pages/episode01-017.jpg" alt="第1話 ページ 17"></div><div class="manga-page" data-i="17"><img loading="lazy" src="pages/episode01-018.jpg" alt="第1話 ページ 18"></div><div class="manga-page" data-i="0"><img src="pages/episode02-001.jpg" alt="第2話 ページ 1"></div><div class="manga-page" data-i="1"><img src="pages/episode02-002.jpg" alt="第2話 ページ 2"></div><div class="manga-page" data-i="2"><img loading="lazy" src="pages/episode02-003.jpg" alt="第2話 ページ 3"></div><div class="manga-page" data-i="3"><img loading="lazy" src="pages/episode02-004.jpg" alt="第2話 ページ 4"></div><div class="manga-page" data-i="4"><img loading="lazy" src="pages/episode02-005.jpg" alt="第2話 ページ 5"></div><div class="manga-page" data-i="5"><img loading="lazy" src="pages/episode02-006.jpg" alt="第2話 ページ 6"></div><div class="manga-page" data-i="6"><img loading="lazy" src="pages/episode02-007.jpg" alt="第2話 ページ 7"></div><div class="manga-page" data-i="7"><img loading="lazy" src="pages/episode02-008.jpg" alt="第2話 ページ 8"></div><div class="manga-page" data-i="8"><img loading="lazy" src="pages/episode02-009.jpg" alt="第2話 ページ 9"></div><div class="manga-page" data-i="9"><img loading="lazy" src="pages/episode02-010.jpg" alt="第2話 ページ 10"></div><div class="manga-page" data-i="10"><img loading="lazy" src="pages/episode02-011.jpg" alt="第2話 ページ 11"></div><div class="manga-page" data-i="11"><img loading="lazy" src="pages/episode02-012.jpg" alt="第2話 ページ 12"></div><div class="manga-page" data-i="12"><img loading="lazy" src="pages/episode02-013.jpg" alt="第2話 ページ 13"></div><div class="manga-page" data-i="13"><img loading="lazy" src="pages/episode02-014.jpg" alt="第2話 ページ 14"></div><div class="manga-page" data-i="14"><img loading="lazy" src="pages/episode02-015.jpg" alt="第2話 ページ 15"></div><div class="manga-page" data-i="15"><img loading="lazy" src="pages/episode02-016.jpg" alt="第2話 ページ 16"></div><div class="manga-page" data-i="16"><img loading="lazy" src="pages/episode02-017.jpg" alt="第2話 ページ 17"></div><div class="manga-page" data-i="17"><img loading="lazy" src="pages/episode02-018.jpg" alt="第2話 ページ 18"></div><div class="manga-page" data-i="0"><img src="pages/episode03-001.jpg" alt="第3話 ページ 1"></div><div class="manga-page" data-i="1"><img src="pages/episode03-002.jpg" alt="第3話 ページ 2"></div><div class="manga-page" data-i="2"><img loading="lazy" src="pages/episode03-003.jpg" alt="第3話 ページ 3"></div><div class="manga-page" data-i="3"><img loading="lazy" src="pages/episode03-004.jpg" alt="第3話 ページ 4"></div><div class="manga-page" data-i="4"><img loading="lazy" src="pages/episode03-005.jpg" alt="第3話 ページ 5"></div><div class="manga-page" data-i="5"><img loading="lazy" src="pages/episode03-006.jpg" alt="第3話 ページ 6"></div><div class="manga-page" data-i="6"><img loading="lazy" src="pages/episode03-007.jpg" alt="第3話 ページ 7"></div><div class="manga-page" data-i="7"><img loading="lazy" src="pages/episode03-008.jpg" alt="第3話 ページ 8"></div><div class="manga-page" data-i="8"><img loading="lazy" src="pages/episode03-009.jpg" alt="第3話 ページ 9"></div><div class="manga-page" data-i="9"><img loading="lazy" src="pages/episode03-010.jpg" alt="第3話 ページ 10"></div><div class="manga-page" data-i="10"><img loading="lazy" src="pages/episode03-011.jpg" alt="第3話 ページ 11"></div><div class="manga-page" data-i="11"><img loading="lazy" src="pages/episode03-012.jpg" alt="第3話 ページ 12"></div><div class="manga-page" data-i="12"><img loading="lazy" src="pages/episode03-013.jpg" alt="第3話 ページ 13"></div><div class="manga-page" data-i="13"><img loading="lazy" src="pages/episode03-014.jpg" alt="第3話 ページ 14"></div><div class="manga-page" data-i="14"><img loading="lazy" src="pages/episode03-015.jpg" alt="第3話 ページ 15"></div><div class="manga-page" data-i="15"><img loading="lazy" src="pages/episode03-016.jpg" alt="第3話 ページ 16"></div><div class="manga-page" data-i="16"><img loading="lazy" src="pages/episode03-017.jpg" alt="第3話 ページ 17"></div><div class="manga-page" data-i="17"><img loading="lazy" src="pages/episode03-018.jpg" alt="第3話 ページ 18"></div><div class="manga-page" data-i="0"><img src="pages/episode04-001.jpg" alt="第4話 ページ 1"></div><div class="manga-page" data-i="1"><img src="pages/episode04-002.jpg" alt="第4話 ページ 2"></div><div class="manga-page" data-i="2"><img loading="lazy" src="pages/episode04-003.jpg" alt="第4話 ページ 3"></div><div class="manga-page" data-i="3"><img loading="lazy" src="pages/episode04-004.jpg" alt="第4話 ページ 4"></div><div class="manga-page" data-i="4"><img loading="lazy" src="pages/episode04-005.jpg" alt="第4話 ページ 5"></div><div class="manga-page" data-i="5"><img loading="lazy" src="pages/episode04-006.jpg" alt="第4話 ページ 6"></div><div class="manga-page" data-i="6"><img loading="lazy" src="pages/episode04-007.jpg" alt="第4話 ページ 7"></div><div class="manga-page" data-i="7"><img loading="lazy" src="pages/episode04-008.jpg" alt="第4話 ページ 8"></div><div class="manga-page" data-i="8"><img loading="lazy" src="pages/episode04-009.jpg" alt="第4話 ページ 9"></div><div class="manga-page" data-i="9"><img loading="lazy" src="pages/episode04-010.jpg" alt="第4話 ページ 10"></div><div class="manga-page" data-i="10"><img loading="lazy" src="pages/episode04-011.jpg" alt="第4話 ページ 11"></div><div class="manga-page" data-i="11"><img loading="lazy" src="pages/episode04-012.jpg" alt="第4話 ページ 12"></div><div class="manga-page" data-i="12"><img loading="lazy" src="pages/episode04-013.jpg" alt="第4話 ページ 13"></div><div class="manga-page" data-i="13"><img loading="lazy" src="pages/episode04-014.jpg" alt="第4話 ページ 14"></div><div class="manga-page" data-i="14"><img loading="lazy" src="pages/episode04-015.jpg" alt="第4話 ページ 15"></div><div class="manga-page" data-i="15"><img loading="lazy" src="pages/episode04-016.jpg" alt="第4話 ページ 16"></div><div class="manga-page" data-i="16"><img loading="lazy" src="pages/episode04-017.jpg" alt="第4話 ページ 17"></div><div class="manga-page" data-i="17"><img loading="lazy" src="pages/episode04-018.jpg" alt="第4話 ページ 18"></div></main>
+
+<div class="page-nav"><button id="prev">← 次のページ</button><button id="next">前のページ →</button></div>
+<div class="counter" id="counter">1 / 1</div>
+<div class="reader-footer"><a href="index.html">HOME</a>　|　<a href="index.html#comics">コミックス一覧</a>　|　<a href="demon-encyclopedia.html">DEMON図鑑</a>　|　<a href="correlation.html">相関図</a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script id="jumpplus-landscape-script">
+(function(){
+  const viewer=document.querySelector('.viewer');
+  if(!viewer) return;
+
+  // 元ページを一度だけ取得
+  let originals=[...viewer.querySelectorAll('.manga-page')];
+  if(!originals.length) return;
+
+  const counter=document.getElementById('counter');
+  const topBtn=document.getElementById('top');
+  const prevBtn=document.getElementById('prev'); // 左側＝次
+  const nextBtn=document.getElementById('next'); // 右側＝前
+
+  let slides=[];
+  let index=0;
+  let currentPage=0;
+  let landscape=false;
+  let startX=0,startY=0,dx=0,dragging=false,axis=null,animating=false;
+
+  function isLandscape(){
+    return window.innerWidth > window.innerHeight;
+  }
+
+  function build(){
+    // 現在のページ番号を保持して組み直す
+    currentPage = slides[index] ? Number(slides[index].dataset.start||0) : currentPage;
+
+    viewer.innerHTML='';
+    slides=[];
+    landscape=isLandscape();
+
+    if(landscape){
+      const makeBlank=()=>{
+        const blank=document.createElement('div');
+        blank.className='manga-page blank-page';
+        blank.setAttribute('aria-hidden','true');
+        return blank;
+      };
+
+      const addSpread=(rightPage,leftPage,start,end)=>{
+        const slide=document.createElement('div');
+        slide.className='reader-slide spread';
+        slide.dataset.start=String(start);
+        slide.dataset.end=String(end);
+        // row-reverse: 最初の要素が右側、2番目が左側
+        slide.appendChild(rightPage);
+        slide.appendChild(leftPage);
+        viewer.appendChild(slide);
+        slides.push(slide);
+      };
+
+      // 最初：左に1ページ目、右に仮想白紙
+      addSpread(makeBlank(),originals[0],0,0);
+
+      // 本文：右に偶数ページ、左に続く奇数ページ
+      let i=1;
+      for(;i+1<originals.length;i+=2){
+        addSpread(originals[i],originals[i+1],i,i+1);
+      }
+
+      // 最後に1ページ余る場合：右に最終ページ、左に仮想白紙
+      if(i<originals.length){
+        addSpread(originals[i],makeBlank(),i,i);
+      }
+
+      index=slides.findIndex(slide=>{
+        const start=Number(slide.dataset.start);
+        const end=Number(slide.dataset.end);
+        return currentPage>=start && currentPage<=end;
+      });
+      if(index<0) index=0;
+    }else{
+      originals.forEach((page,i)=>{
+        const slide=document.createElement('div');
+        slide.className='reader-slide single';
+        slide.dataset.start=String(i);
+        slide.appendChild(page);
+        viewer.appendChild(slide);
+        slides.push(slide);
+      });
+      index=Math.min(currentPage, slides.length-1);
+    }
+
+    prepare();
+  }
+
+  function updateCounter(){
+    if(!counter) return;
+    const start=Number(slides[index]?.dataset.start||0);
+    currentPage=start;
+    const end=Number(slides[index]?.dataset.end||start);
+    if(landscape && end>start){
+      counter.textContent=(start+1)+'-'+(end+1)+' / '+originals.length;
+    }else{
+      counter.textContent=(start+1)+' / '+originals.length;
+    }
+  }
+
+  function fitPortraitHeight(){
+    if(landscape) return; // 横向きはCSSで画面高に固定
+    const s=slides[index];
+    if(!s) return;
+    const img=s.querySelector('img');
+    const apply=()=>{ viewer.style.height=s.offsetHeight+'px'; };
+    if(img && img.complete) requestAnimationFrame(apply);
+    else if(img) img.addEventListener('load',()=>requestAnimationFrame(apply),{once:true});
+  }
+
+  function prepare(){
+    slides.forEach((s,i)=>{
+      s.classList.remove('is-active','is-next','is-prev');
+      s.style.transition='none';
+      s.style.transform='translateX(0)';
+      if(i===index){
+        s.classList.add('is-active');
+      }else if(i===index+1){
+        s.classList.add('is-next');
+        s.style.transform='translateX(-100%)';
+      }else if(i===index-1){
+        s.classList.add('is-prev');
+        s.style.transform='translateX(100%)';
+      }
+    });
+    if(landscape){
+      viewer.style.height='calc(100dvh - 42px)';
+    }else{
+      viewer.style.height='auto';
+      fitPortraitHeight();
+    }
+    updateCounter();
+  }
+
+  function animateTo(newIndex,dir){
+    if(animating || newIndex<0 || newIndex>=slides.length) return;
+    animating=true;
+    const cur=slides[index], other=slides[newIndex];
+    cur.style.transition='transform .20s ease';
+    other.style.transition='transform .20s ease';
+    if(dir==='next'){
+      cur.style.transform='translateX(100%)';
+      other.style.transform='translateX(0)';
+    }else{
+      cur.style.transform='translateX(-100%)';
+      other.style.transform='translateX(0)';
+    }
+    setTimeout(()=>{
+      index=newIndex;
+      animating=false;
+      prepare();
+    },210);
+  }
+
+  function snap(){
+    const cur=slides[index], n=slides[index+1], p=slides[index-1];
+    [cur,n,p].forEach(x=>{if(x)x.style.transition='transform .15s ease';});
+    if(cur) cur.style.transform='translateX(0)';
+    if(n) n.style.transform='translateX(-100%)';
+    if(p) p.style.transform='translateX(100%)';
+    setTimeout(prepare,160);
+  }
+
+  viewer.addEventListener('touchstart',e=>{
+    if(animating || e.touches.length!==1) return;
+    const t=e.touches[0];
+    startX=t.clientX; startY=t.clientY; dx=0; dragging=true; axis=null;
+    [slides[index],slides[index+1],slides[index-1]].forEach(x=>{
+      if(x)x.style.transition='none';
+    });
+  },{passive:true});
+
+  viewer.addEventListener('touchmove',e=>{
+    if(!dragging || e.touches.length!==1) return;
+    const t=e.touches[0];
+    let mx=t.clientX-startX, my=t.clientY-startY;
+    if(axis===null){
+      if(Math.abs(mx)<8 && Math.abs(my)<8) return;
+      axis=Math.abs(mx)>Math.abs(my)?'x':'y';
+    }
+    if(axis!=='x') return;
+
+    e.preventDefault();
+    dx=mx;
+    const cur=slides[index], n=slides[index+1], p=slides[index-1];
+    const w=viewer.clientWidth||1;
+
+    if(dx>0){
+      if(index>=slides.length-1) dx*=0.25;
+      cur.style.transform=`translateX(${dx}px)`;
+      if(n) n.style.transform=`translateX(${-w+dx}px)`;
+    }else{
+      if(index<=0) dx*=0.25;
+      cur.style.transform=`translateX(${dx}px)`;
+      if(p) p.style.transform=`translateX(${w+dx}px)`;
+    }
+  },{passive:false});
+
+  viewer.addEventListener('touchend',()=>{
+    if(!dragging) return;
+    dragging=false;
+    if(axis!=='x'){ prepare(); return; }
+    const threshold=Math.min(90,(viewer.clientWidth||1)*0.16);
+    if(dx>threshold && index<slides.length-1) animateTo(index+1,'next');
+    else if(dx<-threshold && index>0) animateTo(index-1,'prev');
+    else snap();
+  },{passive:true});
+
+  // マウスホイール/トラックパッドでも送れるようにする
+  let wheelLock=false;
+  viewer.addEventListener('wheel',e=>{
+    if(wheelLock) return;
+    const amount=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY;
+    if(Math.abs(amount)<20) return;
+    e.preventDefault();
+    wheelLock=true;
+    if(amount<0 && index<slides.length-1) animateTo(index+1,'next');
+    else if(amount>0 && index>0) animateTo(index-1,'prev');
+    setTimeout(()=>wheelLock=false,280);
+  },{passive:false});
+
+  if(prevBtn) prevBtn.onclick=()=>animateTo(index+1,'next');
+  if(nextBtn) nextBtn.onclick=()=>animateTo(index-1,'prev');
+
+  if(topBtn) topBtn.onclick=()=>{
+    currentPage=0; index=0; prepare();
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowLeft') animateTo(index+1,'next');
+    if(e.key==='ArrowRight') animateTo(index-1,'prev');
+  });
+
+  let timer;
+  function onRotate(){
+    clearTimeout(timer);
+    timer=setTimeout(()=>{
+      const newLandscape=isLandscape();
+      if(newLandscape!==landscape) build();
+      else prepare();
+    },220);
+  }
+  window.addEventListener('resize',onRotate);
+  window.addEventListener('orientationchange',()=>{
+    setTimeout(onRotate,300);
+    setTimeout(onRotate,650);
+  });
+
+  build();
+})();
+</script>
+
+</body></html>
