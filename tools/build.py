@@ -41,7 +41,7 @@ episodes, volumes = data["episodes"], data["volumes"]
 related, site_link = data.get("related", []), data.get("site_link")
 TITLE = work["title"]
 BASE = site["url"].rstrip("/") + "/"
-PER_RANGE = 20
+PER_RANGE = 50
 
 
 def ver(path):
@@ -110,7 +110,7 @@ def head(title, desc, url, typ, theme=False, extra=""):
 def index_page():
     max_no = max(ep["no"] for ep in episodes)
     ranges = "".join(
-        f'<button class="range-btn{" active" if s == 1 else ""}" data-range="{s}-{s + PER_RANGE - 1}">{s}-{s + PER_RANGE - 1}</button>'
+        f'<button class="range-btn{" active" if s == 1 else ""}" data-range="{s}-{min(s + PER_RANGE - 1, max_no)}">{s}-{min(s + PER_RANGE - 1, max_no)}</button>'
         for s in range(1, max_no + 1, PER_RANGE))
     rows = ""
     for ep in episodes:

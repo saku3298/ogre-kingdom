@@ -605,3 +605,8 @@ body.top-page{margin:0;background:#fff;color:#111;font-family:-apple-system,Blin
 .jp-btn.primary::before{content:"\25B6";margin-right:.55em;font-size:.7em}
 @media(min-width:800px){body.top-page{background:#f4f4f5}.jp-shell{box-shadow:0 0 0 1px #e8e8ea,0 16px 48px rgba(0,0,0,.07)}}
 @media(max-width:600px){.jp-hero{grid-template-columns:46.5% 53.5%}.jp-hero-right{padding:12px}.jp-logo{font-size:22px;letter-spacing:0}.jp-kicker{font-size:10px;letter-spacing:.16em;gap:7px}.jp-kicker::before{width:14px}.jp-hero-text{gap:8px}}
+/* ヒーローの左右の幅をリカリカイ・りんごちゃんと同じ比率に固定（右の文字で左が縮まないように） */
+.jp-hero{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)}
+.jp-hero-right{min-width:0}
+@media(min-width:601px){.jp-logo{font-size:clamp(26px,4.2vw,32px);letter-spacing:.03em}}
+@media(max-width:600px){.jp-hero{grid-template-columns:minmax(0,46.5%) minmax(0,53.5%)}}
