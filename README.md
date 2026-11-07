@@ -12,7 +12,9 @@ YUURI・SAKUの共作によるオリジナル漫画『オーガキングダム�
 |---|---|
 | `work.json` | 作品情報・話数・巻・DEMON図鑑・関連作品のデータ（**ここを編集します**） |
 | `tools/build.py` | `work.json` から全HTMLを生成します |
-| `tools/encrypt_episode.py` | パスワード付きの話の画像（`.ogk`）を作ります |
+| `tools/pdf_to_pages.py` | 手書き原稿のPDFを、通常の話のページ画像（JPEG）に変換します |
+| `tools/encrypt_episode.py` | PDF（またはJPEG）から、パスワード付きの話の画像（`.ogk`）を作ります |
+| `tools/pdf_pages.py` | 上の2つが使うPDF変換の部品（直接は使いません） |
 | `tools/make_ogp.py` | SNS共有用の画像を `images/ogp/default.jpg` に生成します |
 | `css/style.css` | 画面のデザイン（トップ・ビューア・図鑑・404） |
 | `js/viewer.js` | ビューア（スワイプ・見開き・続きから読む・進捗バー） |
@@ -28,7 +30,10 @@ YUURI・SAKUの共作によるオリジナル漫画『オーガキングダム�
 
 通常の話（誰でも読める）:
 
-1. 画像を置く: `pages/episode66-001.jpg`, `episode66-002.jpg` …（話2桁-ページ3桁）と、サムネイル `pages/thumb-episode66.jpg`
+1. 画像を用意する
+   - 手書き原稿のPDFから作る場合: `python3 tools/pdf_to_pages.py 66 原稿.pdf`（`pages/episode66-001.jpg` … ができます。`pip install pymupdf` が必要です）
+   - すでにJPEG画像がある場合は、`pages/episode66-001.jpg`, `episode66-002.jpg` …（話2桁-ページ3桁）の名前で置きます
+   - サムネイル `pages/thumb-episode66.jpg` も置きます
 2. `work.json` の `episodes` で、その話の行（`"status": "preparing"` のもの）を書き換える
    ```json
    { "no": 66, "title": "第66話のタイトル" }
@@ -40,11 +45,11 @@ YUURI・SAKUの共作によるオリジナル漫画『オーガキングダム�
 
 パスワード付きの話:
 
-1. 手順1の代わりに、元のJPEG画像を暗号化する（パスワードは既存の話と同じものを使います）
+1. 手順1の代わりに、手書き原稿のPDF（またはJPEG画像）を暗号化する（パスワードは既存の話と同じものを使います）
    ```
-   python3 tools/encrypt_episode.py 66 画像1.jpg 画像2.jpg 画像3.jpg …
+   python3 tools/encrypt_episode.py 66 原稿.pdf
    ```
-   `protected/episode66-001.ogk` … ができます（`pip install cryptography` が必要です）。サムネイルは通常どおり `pages/` に置きます。
+   `protected/episode66-001.ogk` … ができます（`pip install cryptography pymupdf` が必要です）。サムネイルは通常どおり `pages/` に置きます。
 2. `work.json` の行に `"protected": true` を付ける
    ```json
    { "no": 66, "title": "第66話のタイトル", "protected": true }
