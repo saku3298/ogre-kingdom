@@ -610,3 +610,6 @@ body.top-page{margin:0;background:#fff;color:#111;font-family:-apple-system,Blin
 .jp-hero-right{min-width:0}
 @media(min-width:601px){.jp-logo{font-size:clamp(26px,4.2vw,32px);letter-spacing:.03em}}
 @media(max-width:600px){.jp-hero{grid-template-columns:minmax(0,46.5%) minmax(0,53.5%)}}
+
+/* 新作（リンクなし）の紹介カード：ホバー演出なし */
+.author-work-card.is-static{cursor:default}.author-work-card.is-static:hover{background:transparent}.author-work-card.is-static:hover .author-work-title{text-decoration:none}

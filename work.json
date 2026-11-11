@@ -9,8 +9,8 @@
   "title": "オーガキングダム",
   "author": "YUURI・SAKU",
   "hero": "top-hero-volume9",
-    "hero_cover": "volume1-cover",
-    "status": "連載中",
+  "hero_cover": "volume1-cover",
+  "status": "連載中",
   "hero_alt": "オーガキングダム 第9巻 メインビジュアル",
   "catch": "これがオーガキングダムの世界！",
   "summary": "鬼とDEMONキラーたちが交差する、手描きのオリジナル漫画。戦いと能力、仲間たちの物語を第1話から最新話まで公開しています。"
@@ -508,6 +508,13 @@
   ]
  },
  "related": [
+  {
+   "title": "アペックスキングネス",
+   "author": "SAKU",
+   "cover": "images/related/apex-kingness-cover.jpg",
+   "cover_alt": "アペックスキングネス 第1巻表紙",
+   "label": "連載準備中"
+  },
   {
    "title": "リカリカイ",
    "author": "SAKU",

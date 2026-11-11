@@ -130,6 +130,7 @@ def index_page():
         f'<div><strong>第{v["no"]}巻</strong><span>{e(v["summary"])}</span></div></a>' for v in volumes)
     tab = ' target="_blank" rel="noopener"'
     cards = "".join(
+        f'<div class="author-work-card is-static"><img src="{r["cover"]}" alt="{e(r["cover_alt"])}"><div><div class="author-work-title">{e(r["title"])}</div><div class="author-work-author">作者：{e(r["author"])}</div><div class="author-work-label">{e(r["label"])}</div></div></div>' if not r.get("url") else
         f'<a class="author-work-card" href="{e(r["url"])}"{tab if r.get("new_tab") else ""}><img src="{r["cover"]}" alt="{e(r["cover_alt"])}">'
         f'<div><div class="author-work-title">{e(r["title"])}</div><div class="author-work-author">作者：{e(r["author"])}</div>'
         f'<div class="author-work-label">コミックス</div></div></a>' for r in related)
