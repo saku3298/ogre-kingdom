@@ -283,29 +283,51 @@ def volume_page(v):
 
 
 # ---------------------------------------------------------------- 図鑑・相関図・404
-def site_header(with_corr):
-    corr = '<a href="correlation.html">相関図</a>' if with_corr else ""
-    return (f'<header class="site-header"><div class="header-inner"><a class="brand" href="index.html">{e(TITLE)}<small>OGRE KINGDOM</small></a>\n'
-            f'<nav><a href="index.html#comics">漫画</a><a href="demon-encyclopedia.html">DEMON図鑑</a>{corr}</nav></div></header>\n')
+BOLT = '<svg class="dp-bolt" viewBox="0 0 60 100" aria-hidden="true"><path d="M38 2 6 56h20L14 98 54 38H33z"/></svg>'
+V_DICT = ver("js/dict.js")
 
 
-SITE_FOOT = f'<footer><a href="index.html">HOMEへ戻る</a>　|　{e(site["copyright"])}</footer></body></html>\n'
+def site_header(current):
+    def a(href, label, key):
+        cur = ' aria-current="page"' if key == current else ""
+        return f'<a href="{href}"{cur}>{label}</a>'
+    return (f'<header class="site-header dp-header"><div class="header-inner"><a class="brand" href="index.html">{e(TITLE)}<small>OGRE KINGDOM</small></a>\n'
+            f'<nav>{a("index.html#comics", "漫画", "")}{a("demon-encyclopedia.html", "DEMON図鑑", "demon")}{a("correlation.html", "相関図", "corr")}</nav></div></header>\n')
+
+
+def site_foot(current):
+    other = ('<a class="dp-next" href="correlation.html"><span>つぎの資料</span><strong>相関図 →</strong></a>' if current == "demon"
+             else '<a class="dp-next" href="demon-encyclopedia.html"><span>つぎの資料</span><strong>DEMON図鑑 →</strong></a>')
+    return (f'<section class="dp-more">{other}<a class="dp-next" href="index.html"><span>作品にもどる</span><strong>{e(TITLE)} →</strong></a></section>\n'
+            f'<footer class="dp-foot">{e(site["copyright"])}</footer>\n<script src="js/dict.js?v={V_DICT}"></script></body></html>\n')
+
+
+def dict_hero(kicker, title, lead):
+    return (f'<section class="dp-hero">{BOLT}<p class="dp-kicker">{kicker}</p>'
+            f'<h1><span>{title}</span></h1><p class="dp-lead">{lead}</p></section>\n')
 
 
 def demon_page():
     d = data["demon_encyclopedia"]
-    arts = "".join(f'<article id="no{x["no"]}"><img src="{img("pages/demon-%03d" % x["no"])}" alt="DEMON図鑑 No.{x["no"]} {e(x["name"])}">'
-                   f'<div class="card-body"><span class="badge">No.{x["no"]}</span><strong>{e(x["name"])}</strong></div></article>' for x in d)
-    return (head(f"DEMON図鑑 | {TITLE}", f"{TITLE} DEMON図鑑 No.1〜No.{len(d)}", f"{BASE}demon-encyclopedia.html", "article") + "<body>\n" + site_header(False)
-            + f'<main class="dictionary-page"><div class="kicker">DEMON ENCYCLOPEDIA</div><h1>DEMON図鑑</h1>\n'
-              f'<p class="lead">DEMON図鑑 No.1〜No.{len(d)}をカラー原稿でまとめて閲覧できます。</p>\n<div class="dict-full">{arts}</div></main>\n' + SITE_FOOT)
+    chips = "".join(f'<a href="#no{x["no"]}">{x["no"]}</a>' for x in d)
+    arts = "".join(
+        f'<article class="dp-card" id="no{x["no"]}"><a class="zoom" href="{img("pages/demon-%03d" % x["no"])}" '
+        f'data-alt="DEMON図鑑 No.{x["no"]} {e(x["name"])}" data-cap="No.{x["no"]}　{e(x["name"])}">'
+        f'<img loading="lazy" src="{img("pages/demon-%03d" % x["no"])}" alt="DEMON図鑑 No.{x["no"]} {e(x["name"])}"></a>'
+        f'<div class="dp-meta"><span class="dp-no">No.<b>{x["no"]:02d}</b></span><strong>{e(x["name"])}</strong></div></article>' for x in d)
+    return (head(f"DEMON図鑑 | {TITLE}", f"{TITLE} DEMON図鑑 No.1〜No.{len(d)}", f"{BASE}demon-encyclopedia.html", "article") 
+            + '<body class="dict-page">\n' + site_header("demon")
+            + dict_hero("DEMON ENCYCLOPEDIA", "DEMON図鑑", f"No.1〜No.{len(d)}を、カラー原稿でまとめて見られます。タップすると大きく表示します。")
+            + f'<main class="dp-main"><nav class="dp-chips" aria-label="図鑑の番号">{chips}</nav>\n<div class="dp-grid">{arts}</div></main>\n' + site_foot("demon"))
 
 
 def correlation_page():
-    return (head(f"相関図 | {TITLE}", f"{TITLE} 相関図", f"{BASE}correlation.html", "article") + "<body>\n" + site_header(True)
-            + f'<main class="dictionary-page"><div class="kicker">CHARACTER RELATIONSHIP</div><h1>相関図</h1>\n'
-              f'<p class="lead">登場人物・組織・勢力の関係をまとめた相関図です。</p>\n'
-              f'<div class="dict-full"><article><img src="{img("pages/correlation-chart")}" alt="{e(TITLE)} 相関図"></article></div></main>\n' + SITE_FOOT)
+    src = img("pages/correlation-chart")
+    return (head(f"相関図 | {TITLE}", f"{TITLE} 相関図", f"{BASE}correlation.html", "article")
+            + '<body class="dict-page">\n' + site_header("corr")
+            + dict_hero("CHARACTER RELATIONSHIP", "相関図", "登場人物・組織・勢力の関係をまとめた、手描きの相関図です。タップすると大きく表示します。")
+            + f'<main class="dp-main"><article class="dp-card dp-sheet"><a class="zoom" href="{src}" data-alt="{e(TITLE)} 相関図" data-cap="{e(TITLE)} 相関図">'
+              f'<img src="{src}" alt="{e(TITLE)} 相関図"><span class="dp-zoomhint">拡大して見る</span></a></article></main>\n' + site_foot("corr"))
 
 
 def not_found_page():
