@@ -211,7 +211,7 @@ def index_page():
     <div class="work-intro">
       <div class="work-catch">{e(TITLE)}</div>
       <p class="work-summary">{e(work["summary"])}</p>
-      <div class="author-chip">{e(work["author"])}</div>
+      <div class="author-profile"><img src="{img("images/work/author-portrait")}" alt="{e(work["author_portrait_alt"])}"><div><span>作者</span><strong>{e(work["author"])}</strong></div></div>
       <div class="info-links">
         <a class="jp-btn" href="demon-encyclopedia.html">DEMON図鑑</a>
       </div>
