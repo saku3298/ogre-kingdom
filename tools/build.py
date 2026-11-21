@@ -40,6 +40,9 @@ site, work = data["site"], data["work"]
 episodes, volumes = data["episodes"], data["volumes"]
 related, site_link = data.get("related", []), data.get("site_link")
 TITLE = work["title"]
+TITLE_HTML = "<br>".join(e(x) for x in work["title_break"].split("|")) if work.get("title_break") else e(TITLE)
+KICKER_HTML = f'<div class="jp-kicker">{e(work["kicker"])}</div>' if work.get("kicker") else ""
+CATCH_HTML = ('<p class="jp-catch">' + '<span class="catch-br"></span>'.join(e(x) for x in work["catch_copy"].split("|")) + '</p>') if work.get("catch_copy") else ""
 BASE = site["url"].rstrip("/") + "/"
 PER_RANGE = 50
 
@@ -174,8 +177,8 @@ def index_page():
     n_ep = len(episodes)
     return head(TITLE, site["description"], BASE, "website") + f'''<body class="top-page">
 <div class="jp-shell">
-<section class="jp-hero"><img src="{img("pages/" + work.get("hero_cover", "volume1-cover"))}" alt="{e(TITLE)} 第1巻表紙"><div class="jp-hero-right"><div class="jp-hero-text"><div class="jp-kicker">ORIGINAL MANGA</div><div class="jp-logo">{e(TITLE)}</div></div></div></section>
-<section class="jp-info"><h1 class="jp-title">{e(TITLE)}</h1><div class="jp-author">{e(work["author"])}</div><div class="jp-tags"><span>オリジナル漫画</span><span>全{n_ep}話</span><span>全{len(volumes)}巻</span><span>{e(work.get("status", "連載中"))}</span></div>
+<section class="jp-hero"><img src="{img("pages/" + work.get("hero_cover", "volume1-cover"))}" alt="{e(TITLE)} 第1巻表紙"><div class="jp-hero-right"><div class="jp-hero-text">{KICKER_HTML}<div class="jp-logo">{TITLE_HTML}</div>{CATCH_HTML}</div></div></section>
+<section class="jp-info"><h1 class="jp-title">{TITLE_HTML}</h1><div class="jp-author">{e(work["author"])}</div><div class="jp-tags"><span>オリジナル漫画</span><span>全{n_ep}話</span><span>全{len(volumes)}巻</span><span>{e(work.get("status", "連載中"))}</span></div>
 <div class="jp-actions"><a class="jp-btn primary" href="episode1.html">第1話から読む</a><a class="jp-btn" href="episode{latest["no"]}.html">最新話から読む</a></div></section>
 <nav class="jp-tabs"><button class="jp-tab active" data-tab="episodes">話</button><button class="jp-tab" data-tab="comics">コミックス</button><button class="jp-tab" data-tab="info">作品情報</button></nav>
 <section id="episodes" class="jp-panel active">

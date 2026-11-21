@@ -729,3 +729,15 @@ body.lb-lock{overflow:hidden}
 a.char-cameo:hover{border-color:#18aaf5;background:#fff}
 .char-cameo i{font-style:normal;font-size:15px;color:#18aaf5}
 @media(min-width:800px){.char-list{overflow:visible;flex-wrap:nowrap}.char-card{flex:1 1 0;min-width:0}}
+
+/* タイトルとキャッチコピーのフォント（必要な文字だけを切り出した軽量版。Dela Gothic One / Shippori Mincho B1・SIL OFL） */
+@font-face{font-family:"ApexTitle";src:url("../assets/fonts/title.woff2") format("woff2");font-display:swap}
+@font-face{font-family:"ApexCatch";src:url("../assets/fonts/catch.woff2") format("woff2");font-display:swap}
+.jp-logo,.jp-title{font-family:"ApexTitle","Hiragino Sans","Yu Gothic","Noto Sans CJK JP",sans-serif;font-weight:400;letter-spacing:.02em}
+.jp-logo{line-height:1.12;letter-spacing:.03em}
+.jp-kicker{letter-spacing:.14em;font-weight:700}
+.jp-catch{margin:14px 0 0;font-family:"ApexCatch","Hiragino Mincho ProN","Yu Mincho","Noto Serif CJK JP",serif;font-weight:800;font-size:clamp(14px,2.1vw,17px);line-height:1.7;letter-spacing:.06em;color:rgba(255,255,255,.92);text-shadow:0 1px 8px rgba(0,0,0,.6)}
+@media(max-width:600px){.jp-catch{margin-top:10px;font-size:14px;line-height:1.65;letter-spacing:.02em}}
+
+
+@media(max-width:600px){.catch-br{display:block}}
