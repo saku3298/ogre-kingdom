@@ -188,9 +188,13 @@ def index_page():
       <div class="author-chip">{e(work["author"])}</div>
       <div class="info-links">
         <a class="jp-btn" href="demon-encyclopedia.html">DEMON図鑑</a>
-        <a class="jp-btn" href="correlation.html">相関図</a>
       </div>
     </div>
+
+    <a class="corr-card" href="correlation.html">
+      <span class="corr-thumb"><img loading="lazy" src="images/correlation-thumb.jpg" alt="相関図の一部"></span>
+      <span class="corr-body"><strong>相関図</strong><small>登場人物・組織・勢力のつながりを、手描きの図で見る</small><em>相関図を見る →</em></span>
+    </a>
 
     {line_html}
 
