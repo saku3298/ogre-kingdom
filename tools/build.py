@@ -209,7 +209,7 @@ def index_page():
 <section id="info" class="jp-panel">
   <div class="info-panel">
     <div class="work-intro">
-      <div class="work-catch">{e(work["catch"])}</div>
+      <div class="work-catch">{e(TITLE)}</div>
       <p class="work-summary">{e(work["summary"])}</p>
       <div class="author-chip">{e(work["author"])}</div>
       <div class="info-links">
