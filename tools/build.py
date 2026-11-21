@@ -129,15 +129,17 @@ def index_page():
         f'<a class="volume-tile" href="volume{v["no"]}.html"><img src="{img(f"pages/volume{v["no"]}-cover")}" alt="第{v["no"]}巻 表紙">'
         f'<div><strong>第{v["no"]}巻</strong><span>{e(v["summary"])}</span></div></a>' for v in volumes)
     tab = ' target="_blank" rel="noopener"'
-    cards = "".join(
-        f'<div class="author-work-card is-static"><img src="{r["cover"]}" alt="{e(r["cover_alt"])}"><div><div class="author-work-title">{e(r["title"])}</div><div class="author-work-author">作者：{e(r["author"])}</div><div class="author-work-label">{e(r["label"])}</div></div></div>' if not r.get("url") else
-        f'<a class="author-work-card" href="{e(r["url"])}"{tab if r.get("new_tab") else ""}><img src="{r["cover"]}" alt="{e(r["cover_alt"])}">'
-        f'<div><div class="author-work-title">{e(r["title"])}</div><div class="author-work-author">作者：{e(r["author"])}</div>'
-        f'<div class="author-work-label">コミックス</div></div></a>' for r in related)
-    if site_link:
-        cards += (f'<a class="author-work-card" href="{e(site_link["url"])}"{tab if site_link.get("new_tab") else ""}><img src="{site_link["image"]}" alt="{e(site_link["title"])}">'
-                  f'<div><div class="author-work-title">{e(site_link["title"])}</div><div class="author-work-author">{e(site_link["description"])}</div>'
-                  f'<div class="author-work-label">作品集</div></div></a>')
+    def rail_card(r):
+        badge = f'<span class="rail-badge">{e(r["badge"])}</span>' if r.get("badge") else ""
+        tags = "".join(f"<span>{e(t)}</span>" for t in r.get("tags", []))
+        year = f'<span class="rail-year">{e(r["year"])}</span>' if r.get("year") else ""
+        author = f'<span class="rail-author">作者：{e(r["author"])}</span>' if r.get("author") and r["author"] != work["author"] else ""
+        inner = (f'<span class="rail-cover"><img loading="lazy" src="{r["cover"]}" alt="{e(r["cover_alt"])}">{badge}</span>'
+                 f'<strong class="rail-title">{e(r["title"])}</strong>{year}{author}<span class="rail-tags">{tags}</span>')
+        if r.get("url"):
+            return f'<a class="rail-card" href="{e(r["url"])}"{tab if r.get("new_tab") else ""}>{inner}</a>'
+        return f'<div class="rail-card is-static">{inner}</div>'
+    cards = '<div class="work-rail">' + "".join(rail_card(r) for r in related) + "</div>"
     ls = data.get("line_stickers")
     line_html = ""
     if ls:

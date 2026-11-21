@@ -509,27 +509,55 @@
  },
  "related": [
   {
-   "title": "アペックスキングネス",
+   "title": "SAKU作品集",
    "author": "SAKU",
-   "cover": "images/related/apex-kingness-cover.jpg",
-   "cover_alt": "アペックスキングネス 第1巻表紙",
-   "label": "連載準備中"
-  },
-  {
-   "title": "リカリカイ",
-   "author": "SAKU",
-   "url": "https://saku3298.github.io/rikarikai/",
-   "cover": "pages/rikarikai-cover.jpg",
-   "cover_alt": "リカリカイ",
+   "year": "2021年〜",
+   "tags": [
+    "作品集"
+   ],
+   "cover": "images/related/saku-works-cover.jpg",
+   "cover_alt": "SAKU作品集",
+   "url": "https://saku3298.github.io/saku-works/",
    "new_tab": true
   },
   {
    "title": "りんごちゃん",
    "author": "れ。",
-   "url": "https://saku3298.github.io/ringo-chan/",
+   "year": "2023年〜",
+   "tags": [
+    "話",
+    "コミックス"
+   ],
    "cover": "pages/ringo-chan-cover.jpg",
    "cover_alt": "りんごちゃん 第1巻表紙",
+   "badge": "休載中",
+   "url": "https://saku3298.github.io/ringo-chan/",
    "new_tab": true
+  },
+  {
+   "title": "リカリカイ",
+   "author": "SAKU",
+   "year": "2026年〜",
+   "tags": [
+    "話",
+    "コミックス"
+   ],
+   "cover": "pages/rikarikai-cover.jpg",
+   "cover_alt": "リカリカイ 第1巻表紙",
+   "url": "https://saku3298.github.io/rikarikai/",
+   "new_tab": true
+  },
+  {
+   "title": "アペックスキングネス",
+   "author": "SAKU",
+   "year": "2026年〜",
+   "tags": [
+    "話",
+    "コミックス"
+   ],
+   "cover": "images/related/apex-kingness-cover.jpg",
+   "cover_alt": "アペックスキングネス 第1巻表紙",
+   "badge": "連載準備中"
   }
  ],
  "site_link": {
