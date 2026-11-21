@@ -107,6 +107,29 @@ def head(title, desc, url, typ, theme=False, extra=""):
 
 
 # ---------------------------------------------------------------- トップ
+def characters_html():
+    """登場人物（work.json の characters）。なければ何も出さない。"""
+    chars = data.get("characters") or []
+    if not chars:
+        return ""
+    cards = []
+    for c in chars:
+        role = f'<span class="char-role">{e(c["role"])}</span>' if c.get("role") else ""
+        reading = f'<span class="char-reading">{e(c["reading"])}</span>' if c.get("reading") else ""
+        note = f'<p class="char-note">{e(c["note"])}</p>' if c.get("note") else ""
+        links = "".join(
+            f'<a class="char-cameo" href="{e(x["url"])}" target="_blank" rel="noopener">'
+            + (f'<img src="{img("images/related/" + x["icon"])}" alt="">' if x.get("icon") else "")
+            + f'<span>{e(x["title"])}</span><i aria-hidden="true">›</i></a>'
+            for x in c.get("cameo", []))
+        cameo = f'<span class="char-cameo-head">ほかの作品でも会える</span>{links}' if links else ""
+        cards.append(
+            f'<li class="char-card{" is-main" if c.get("main") else ""}">'
+            f'<img src="{img("images/characters/" + c["image"])}" alt="{e(c["name"])}" loading="lazy">'
+            f'{role}<strong class="char-name">{e(c["name"])}</strong>{reading}'
+            f'<p class="char-desc">{e(c["desc"])}</p>{note}<div class="char-cameos">{cameo}</div></li>')
+    return f'<div class="info-section char-section"><h2>登場人物</h2><ul class="char-list">{"".join(cards)}</ul></div>'
+
 def index_page():
     max_no = max(ep["no"] for ep in episodes)
     ranges = "".join(
@@ -190,6 +213,8 @@ def index_page():
         <a class="jp-btn" href="demon-encyclopedia.html">DEMON図鑑</a>
       </div>
     </div>
+
+    {characters_html()}
 
     <a class="corr-card" href="correlation.html">
       <span class="corr-thumb"><img loading="lazy" src="images/correlation-thumb.jpg" alt="相関図の一部"></span>

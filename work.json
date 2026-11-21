@@ -566,5 +566,38 @@
   "description": "短編マンガをまとめた作品集",
   "image": "images/related/saku-works-cover.jpg",
   "new_tab": true
- }
+ },
+ "characters": [
+  {
+   "name": "雷子",
+   "reading": "らいこ",
+   "image": "raiko",
+   "role": "主人公",
+   "main": true,
+   "desc": "雷にうたれて、電気魔法が使えるようになった。雷のような速さで戦う。能力は「雷神の神通力」。"
+  },
+  {
+   "name": "グレー",
+   "image": "grey",
+   "desc": "雷子の妹。ヘッドホンをつけた超能力者で、重力を強めたり、空間を斬ったりする。"
+  },
+  {
+   "name": "ゆうり先生",
+   "image": "yuuri",
+   "role": "鬼神",
+   "desc": "DEMONキラー育成中学校の教育官。正体は鬼神。"
+  },
+  {
+   "name": "西京勝",
+   "reading": "さいきょう まさる",
+   "image": "masaru",
+   "desc": "DEMON考察官。西京強の兄。殺虫剤スプレーを連打する必殺技で、虫系のDEMONを倒す。"
+  },
+  {
+   "name": "西京強",
+   "reading": "さいきょう つよし",
+   "image": "tsuyoshi",
+   "desc": "勝の弟で、雷子の友だち。「最強でカッコいい男」にあこがれている。"
+  }
+ ]
 }
